@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="margin:0; padding:0; overflow:hidden;">
+    <video autoplay muted loop playsinline id="bg-video"
+        style="position:fixed; top:0; left:0; width:100vw; height:110vh; object-fit:cover; z-index:-1;">
+        <source src="./videos/landing_page.mp4" type="video/mp4">
+    </video>
+<div style="position: absolute; top: 70%; left: 70%; transform: translate(-50%, -50%); text-align: center; animation: fadeInUp 1.5s ease 0.8s forwards; opacity:0;">
+    <p style="color: white; font-size: 1.5em; margin: 0 0 20px 0; animation: fadeIn 2s 1.2s forwards; opacity:0;">
+        Your journey into sound begins here.
+    </p>
+    <a href="index.html" style="display:inline-block; padding:10px 20px; background-color:#ff5722; color:white; text-decoration:none; border-radius:5px; font-size:1em; transition: background 0.3s, transform 0.3s; animation: popIn 2s 2s forwards; opacity:0;">
+        Explore
+    </a>
+</div>
+<style>
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translate(-50%, 30%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    80% { opacity: 1; transform: scale(1.05);}
+    100% { opacity: 1; transform: scale(1);}
+}
+a:hover {
+    background-color: #e64a19;
+    transform: scale(1.08);
+}
+</style>
+
+
+</body>
+</html>
