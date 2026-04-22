@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans bg-[#0f0f0f] text-gray-100;
+  }
+}
+
+.section-title {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 3rem;
+}
+
+.section-title:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: #eab308;
+  border-radius: 3px;
+}
+
+.secondary-text {
+  @apply text-gray-400;
+}
+
+.accent-yellow {
+  @apply bg-yellow-500;
+}
+
+.accent-yellow-text {
+  @apply text-yellow-500;
+}
+
+.card-bg {
+  @apply bg-gray-800;
+}
+
+.border-light {
+  @apply border-gray-700;
+}

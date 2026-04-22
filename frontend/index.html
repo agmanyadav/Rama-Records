@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="http://localhost:5000/images/rama_studio_logo1.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Rama Records - Professional Music Studio for Recording, Mixing, Mastering and Music Production by Anurag Dhiman. Book your session today." />
+    <title>Rama Records | Music Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Disable right-click context menu on all media
+      document.addEventListener('contextmenu', function(e) {
+        if (e.target.tagName === 'AUDIO' || e.target.tagName === 'VIDEO' || e.target.tagName === 'IMG') {
+          e.preventDefault();
+        }
+      });
+      // Block common download shortcuts (Ctrl+S, Ctrl+Shift+I for DevTools)
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey && e.key === 's') || (e.ctrlKey && e.key === 'u')) {
+          e.preventDefault();
+        }
+      });
+      // Disable drag on all images and audio elements
+      document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG' || e.target.tagName === 'AUDIO') {
+          e.preventDefault();
+        }
+      });
+    </script>
+    <style>
+      /* Prevent selecting/copying media content */
+      audio, video, img {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: auto;
+      }
+      audio {
+        pointer-events: none;
+      }
+    </style>
+  </body>
+</html>
