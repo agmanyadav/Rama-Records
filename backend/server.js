@@ -1,5 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config(); // Load env vars BEFORE importing routes/controllers that use them
+
 const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
@@ -14,8 +16,6 @@ const uploadRoutes = require('./routes/uploadRoutes.js');
 const beatRoutes = require('./routes/beatRoutes.js');
 const galleryRoutes = require('./routes/galleryRoutes.js');
 const serviceRoutes = require('./routes/serviceRoutes.js');
-
-dotenv.config();
 
 connectDB();
 
