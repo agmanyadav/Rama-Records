@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { getStaticUrl } from '../api/api';
 
 const CEOSection = () => {
   return (
@@ -12,7 +13,7 @@ const CEOSection = () => {
           className="flex-shrink-0"
         >
           <img
-            src="http://localhost:5000/images/CEO_rama_records (2).jpg"
+            src={getStaticUrl('/images/CEO_rama_records (2).jpg')}
             alt="Anurag Dhiman - CEO & Founder of Rama Records"
             className="w-72 md:w-80 h-auto rounded-2xl shadow-2xl object-cover border-4 border-yellow-400"
           />

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { getStaticUrl } from '../api/api';
 
 const HeroSection = ({ onBookSession }) => {
   const scrollToContent = () => {
@@ -14,7 +15,7 @@ const HeroSection = ({ onBookSession }) => {
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(http://localhost:5000/images/hero.bg1.JPG)` }}
+        style={{ backgroundImage: `url(${getStaticUrl('/images/hero.bg1.JPG')})` }}
       />
 
       {/* Overlay */}
@@ -28,7 +29,7 @@ const HeroSection = ({ onBookSession }) => {
         className="absolute left-[3%] bottom-0 hidden lg:flex items-end z-10"
       >
         <img
-          src="http://localhost:5000/images/left_char.png"
+          src={getStaticUrl('/images/left_char.png')}
           alt="Artist Character"
           className="h-[70vh] object-contain drop-shadow-[0_0_20px_rgba(234,179,8,0.3)]"
         />
@@ -42,7 +43,7 @@ const HeroSection = ({ onBookSession }) => {
         className="absolute right-[3%] bottom-0 hidden lg:flex items-end z-10"
       >
         <img
-          src="http://localhost:5000/images/right_char.png"
+          src={getStaticUrl('/images/right_char.png')}
           alt="Artist Character"
           className="h-[70vh] object-contain drop-shadow-[0_0_20px_rgba(234,179,8,0.3)]"
         />

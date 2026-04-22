@@ -47,14 +47,14 @@ const AdminDashboard = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [bookRes, contRes, songRes, beatRes, galRes] = await Promise.all([
+      const results = await Promise.allSettled([
         fetchBookings(), fetchContacts(), fetchSongs(), fetchBeats(), fetchGallery()
       ]);
-      setBookings(bookRes.data);
-      setContacts(contRes.data);
-      setSongs(songRes.data);
-      setBeats(beatRes.data);
-      setGallery(galRes.data);
+      if (results[0].status === 'fulfilled') setBookings(results[0].value.data);
+      if (results[1].status === 'fulfilled') setContacts(results[1].value.data);
+      if (results[2].status === 'fulfilled') setSongs(results[2].value.data);
+      if (results[3].status === 'fulfilled') setBeats(results[3].value.data);
+      if (results[4].status === 'fulfilled') setGallery(results[4].value.data);
     } catch (err) {
       console.error('Failed to load data', err);
     } finally {
