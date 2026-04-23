@@ -30,7 +30,7 @@ const allowedOrigins = [
   'http://localhost:3000',
 ];
 if (process.env.FRONTEND_URL) {
-  process.env.FRONTEND_URL.split(',').map(url => url.trim()).forEach(url => allowedOrigins.push(url));
+  process.env.FRONTEND_URL.split(',').map(url => url.trim().replace(/\/+$/, '')).forEach(url => allowedOrigins.push(url));
 }
 console.log('Allowed CORS origins:', allowedOrigins);
 app.use(cors({
