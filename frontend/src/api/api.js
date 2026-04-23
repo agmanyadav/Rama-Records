@@ -61,7 +61,13 @@ export const loginUser = (credentials) => api.post('/auth/login', credentials);
 export const googleLogin = (credential) => api.post('/auth/google', { credential });
 export const getUserProfile = () => api.get('/auth/profile');
 
-// Helper to get full static URL
-export const getStaticUrl = (path) => `${STATIC_BASE_URL}${path}`;
+// Helper to get full static URL — handles both Cloudinary URLs and legacy relative paths
+export const getStaticUrl = (path) => {
+  if (!path) return '';
+  // If it's already a full URL (Cloudinary, etc.), return as-is
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  // Otherwise, prepend the backend static URL
+  return `${STATIC_BASE_URL}${path}`;
+};
 
 export default api;
