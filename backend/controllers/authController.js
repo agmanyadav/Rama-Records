@@ -42,7 +42,7 @@ const googleAuth = async (req, res) => {
     try {
         const { credential } = req.body;
         console.log('Google Auth attempt. GOOGLE_CLIENT_ID set:', !!process.env.GOOGLE_CLIENT_ID);
-        console.log('ADMIN_EMAIL set:', !!process.env.ADMIN_EMAIL);
+        console.log('ADMIN_EMAILS set:', !!(process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL));
 
         if (!credential) {
             return res.status(400).json({ message: 'No credential provided.' });
@@ -58,10 +58,11 @@ const googleAuth = async (req, res) => {
         const { email, name, picture, sub: googleId } = payload;
         console.log('Google Auth verified email:', email);
 
-        // Check if this email is the authorized admin
-        const adminEmail = process.env.ADMIN_EMAIL;
-        if (email !== adminEmail) {
-            console.warn('Admin email mismatch. Got:', email, 'Expected:', adminEmail);
+        // Check if this email is an authorized admin
+        const envAdminEmails = process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || '';
+        const adminEmails = envAdminEmails.split(',').map(e => e.trim());
+        if (!adminEmails.includes(email)) {
+            console.warn('Admin email mismatch. Got:', email, 'Expected one of:', adminEmails);
             return res.status(403).json({ message: 'This Google account is not authorized as admin.' });
         }
 
