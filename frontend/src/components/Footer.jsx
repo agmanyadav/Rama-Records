@@ -34,6 +34,7 @@ const Footer = () => {
             <a href="https://www.jiosaavn.com/artist/anurag-dhiman-songs/1MKtmjJtojs_" target="_blank" rel="noopener noreferrer" className="w-8 h-8 md:w-10 md:h-10 bg-black hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 group">
               <i className="fas fa-compact-disc text-yellow-500 group-hover:text-white transition-colors text-sm md:text-base" title="JioSaavn"></i>
             </a>
+            </div>
           </div>
 
           {/* Center - Rama Records + Copyright */}
