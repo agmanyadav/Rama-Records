@@ -123,7 +123,10 @@ const AdminDashboard = () => {
         setUploading(true);
         await createRelease(newRelease);
         setShowReleaseModal(false); setNewRelease({ youtubeUrl: '' }); loadData();
-    } catch (err) { alert('Failed to save release.'); } finally { setUploading(false); }
+    } catch (err) { 
+      console.error('Release save error:', err.response?.data || err.message);
+      alert('Failed to save release: ' + (err.response?.data?.message || err.message)); 
+    } finally { setUploading(false); }
   };
 
   const statusColors = { pending: 'bg-green-100 text-green-800', confirmed: 'bg-green-100 text-green-800', completed: 'bg-blue-100 text-blue-800', cancelled: 'bg-red-100 text-red-800' };
