@@ -52,22 +52,22 @@ const SongsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 pt-20">
+    <div className="min-h-screen bg-black pt-20">
       {/* Header */}
       <div className="max-w-6xl mx-auto px-6 pt-12">
-        <h1 className="text-3xl font-bold text-gray-800 tracking-tight">ALL SONGS</h1>
+        <h1 className="text-3xl font-bold text-white tracking-tight">ALL SONGS</h1>
       </div>
 
       {/* Search */}
-      <div className="flex justify-center py-6 bg-gray-100">
+      <div className="flex justify-center py-6 bg-black">
         <div className="relative w-full max-w-md px-4">
-          <i className="fas fa-search absolute left-7 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <i className="fas fa-search absolute left-7 top-1/2 -translate-y-1/2 text-white"></i>
           <input
             type="text"
             placeholder="Search songs, artists..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-gray-800 shadow-sm"
+            className="w-full pl-10 pr-4 py-3 border border-yellow-500/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-black text-white shadow-sm"
           />
         </div>
       </div>
@@ -75,7 +75,7 @@ const SongsPage = () => {
       {/* Song List */}
       <div className="max-w-6xl mx-auto px-4 pb-32">
         {/* Header Row */}
-        <div className="flex items-center space-x-4 py-3 px-4 bg-gray-200 rounded-lg mb-2 text-sm font-medium text-gray-600">
+        <div className="flex items-center space-x-4 py-3 px-4 bg-black rounded-lg mb-2 text-sm font-medium text-white">
           <div className="w-10 text-center">#</div>
           <div className="flex-1">Title</div>
           <div className="w-1/4 hidden md:block">Album</div>
@@ -93,11 +93,11 @@ const SongsPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05 }}
             className={`flex items-center space-x-4 py-3 px-4 rounded-lg group cursor-pointer transition-colors ${
-              isCurrentPlaying(song) ? 'bg-yellow-50 border border-yellow-200' : 'hover:bg-gray-200 border border-transparent'
+              isCurrentPlaying(song) ? 'bg-yellow-500/10 border border-yellow-500/30' : 'hover:bg-yellow-500/10 border border-transparent'
             }`}
             onClick={() => handlePlaySong(song, index)}
           >
-            <div className="w-10 text-center text-gray-500">
+            <div className="w-10 text-center text-white">
               <span className="group-hover:hidden">{index + 1}</span>
               <button className="hidden group-hover:block w-full">
                 <i className={`fas ${isCurrentPlaying(song) ? 'fa-pause' : 'fa-play'} text-yellow-500`}></i>
@@ -110,25 +110,25 @@ const SongsPage = () => {
                 className="w-10 h-10 rounded object-cover flex-shrink-0"
               />
               <div className="min-w-0">
-                <h3 className={`font-medium truncate ${isCurrentPlaying(song) ? 'text-yellow-600' : 'text-gray-800'}`}>
+                <h3 className={`font-medium truncate ${isCurrentPlaying(song) ? 'text-yellow-500' : 'text-white'}`}>
                   {song.title}
                 </h3>
-                <p className="text-sm text-gray-500 truncate">{song.artists}</p>
+                <p className="text-sm text-white truncate">{song.artists}</p>
               </div>
             </div>
-            <div className="w-1/4 text-gray-500 text-sm hidden md:block truncate">
+            <div className="w-1/4 text-white text-sm hidden md:block truncate">
               {song.album || 'Rama Records'}
             </div>
             
             {/* DSP Links */}
-            <div className="w-28 text-center hidden sm:flex justify-center space-x-4 text-gray-400 text-lg">
+            <div className="w-28 text-center hidden sm:flex justify-center space-x-4 text-white text-lg">
               {song.dsps?.spotify && (
-                <a href={song.dsps.spotify} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="hover:text-green-500 transition-colors" title="Listen on Spotify">
+                <a href={song.dsps.spotify} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="hover:text-yellow-500 transition-colors" title="Listen on Spotify">
                   <i className="fab fa-spotify"></i>
                 </a>
               )}
               {song.dsps?.apple && (
-                <a href={song.dsps.apple} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="hover:text-gray-900 transition-colors" title="Listen on Apple Music">
+                <a href={song.dsps.apple} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="hover:text-white transition-colors" title="Listen on Apple Music">
                   <i className="fab fa-apple"></i>
                 </a>
               )}
@@ -139,12 +139,12 @@ const SongsPage = () => {
               )}
             </div>
 
-            <div className="w-12 text-right text-gray-500 text-sm">{song.duration}</div>
+            <div className="w-12 text-right text-white text-sm">{song.duration}</div>
           </motion.div>
         ))}
 
         {filteredSongs.length === 0 && (
-          <div className="text-center py-10 text-gray-500">
+          <div className="text-center py-10 text-white">
             <i className="fas fa-search text-3xl mb-3 block"></i>
             No songs found matching "{search}"
           </div>

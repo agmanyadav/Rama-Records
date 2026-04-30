@@ -43,11 +43,11 @@ const BeatsSection = () => {
   if (!loading && beats.length === 0) return null; // Don't render section if empty
 
   return (
-    <section id="beats" className="py-24 bg-white border-t border-gray-100">
+    <section id="beats" className="py-24 bg-black border-t border-yellow-500/20">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Latest <span className="text-yellow-500">Beats</span></h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">Featured instrumentals. Check out the full catalog for more.</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Latest <span className="text-yellow-500">Beats</span></h2>
+          <p className="text-white max-w-2xl mx-auto">Featured instrumentals. Check out the full catalog for more.</p>
         </div>
 
         {loading ? (
@@ -63,11 +63,11 @@ const BeatsSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`bg-white rounded-xl overflow-hidden border transition-all duration-300 group ${
-                    currentSong?.id === beat._id ? 'border-yellow-500 shadow-md shadow-yellow-500/20' : 'border-gray-200 hover:border-yellow-500/50 hover:shadow-sm'
+                    className={`bg-black rounded-xl overflow-hidden border transition-all duration-300 group ${
+                    currentSong?.id === beat._id ? 'border-yellow-500 shadow-md shadow-yellow-500/20' : 'border-yellow-500/20 hover:border-yellow-500/50 hover:shadow-sm'
                     }`}
                 >
-                    <div className="relative aspect-square overflow-hidden bg-gray-100">
+                    <div className="relative aspect-square overflow-hidden bg-black">
                     <img
                         src={getStaticUrl(beat.coverImage)}
                         alt={beat.title}
@@ -78,15 +78,15 @@ const BeatsSection = () => {
                             onClick={() => handlePlay(beat, index)}
                             className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-transform cursor-pointer"
                         >
-                            <i className={`fas ${isCurrentPlaying ? 'fa-pause' : 'fa-play'} text-gray-900 pl-${isCurrentPlaying ? '0' : '1'} text-xl`}></i>
+                            <i className={`fas ${isCurrentPlaying ? 'fa-pause' : 'fa-play'} text-white pl-${isCurrentPlaying ? '0' : '1'} text-xl`}></i>
                         </button>
                     </div>
                     </div>
                     
                     <div className="p-5">
-                        <h3 className="text-lg font-bold text-gray-900 group-hover:text-yellow-600 transition-colors line-clamp-1">{beat.title}</h3>
+                        <h3 className="text-lg font-bold text-white group-hover:text-yellow-600 transition-colors line-clamp-1">{beat.title}</h3>
                         <div className="flex justify-between items-center mt-2">
-                           <p className="text-sm text-gray-500">{beat.tags || 'Instrumental'}</p>
+                           <p className="text-sm text-white">{beat.tags || 'Instrumental'}</p>
                            {beat.price && <span className="text-yellow-600 font-bold text-sm">{beat.price}</span>}
                         </div>
                     </div>

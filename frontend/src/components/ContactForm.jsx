@@ -30,7 +30,7 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contact" className="py-20 px-6 bg-white border-t border-gray-100">
+    <section id="contact" className="py-20 px-6 bg-black border-t border-yellow-500/20">
       <div className="max-w-4xl mx-auto">
         <h3 className="text-3xl font-bold mb-12 text-center text-yellow-500 section-title">
           Contact Us
@@ -45,7 +45,7 @@ const ContactForm = () => {
           className="space-y-6"
         >
           <div>
-            <label htmlFor="contact-name" className="block mb-2 text-sm font-medium text-gray-800">
+            <label htmlFor="contact-name" className="block mb-2 text-sm font-medium text-white">
               Name
             </label>
             <input
@@ -55,11 +55,11 @@ const ContactForm = () => {
               required
               value={form.name}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-50 text-gray-800 border border-gray-300 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 outline-none transition-colors"
+              className="w-full p-3 rounded-lg bg-black text-white border border-yellow-500/20 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 outline-none transition-colors"
             />
           </div>
           <div>
-            <label htmlFor="contact-email" className="block mb-2 text-sm font-medium text-gray-800">
+            <label htmlFor="contact-email" className="block mb-2 text-sm font-medium text-white">
               Email
             </label>
             <input
@@ -69,11 +69,11 @@ const ContactForm = () => {
               required
               value={form.email}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-50 text-gray-800 border border-gray-300 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 outline-none transition-colors"
+              className="w-full p-3 rounded-lg bg-black text-white border border-yellow-500/20 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 outline-none transition-colors"
             />
           </div>
           <div>
-            <label htmlFor="contact-message" className="block mb-2 text-sm font-medium text-gray-800">
+            <label htmlFor="contact-message" className="block mb-2 text-sm font-medium text-white">
               Message
             </label>
             <textarea
@@ -83,7 +83,7 @@ const ContactForm = () => {
               required
               value={form.message}
               onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-50 text-gray-800 border border-gray-300 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 outline-none transition-colors resize-none"
+              className="w-full p-3 rounded-lg bg-black text-white border border-yellow-500/20 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 outline-none transition-colors resize-none"
             ></textarea>
           </div>
 
@@ -92,7 +92,7 @@ const ContactForm = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-green-400 text-sm flex items-center gap-2"
+              className="text-yellow-400 text-sm flex items-center gap-2"
             >
               <i className="fas fa-check-circle"></i> Message sent successfully!
             </motion.p>
@@ -101,7 +101,7 @@ const ContactForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-yellow-500 hover:bg-yellow-600 text-gray-800 font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 disabled:opacity-50 shadow-lg"
+            className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 disabled:opacity-50 shadow-lg"
           >
             {loading ? (
               <span><i className="fas fa-spinner fa-spin mr-2"></i>Sending...</span>

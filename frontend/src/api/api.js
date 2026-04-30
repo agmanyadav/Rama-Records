@@ -52,6 +52,11 @@ export const fetchFeaturedServices = () => api.get('/services/featured');
 export const createService = (serviceData) => api.post('/services', serviceData);
 export const deleteService = (id) => api.delete(`/services/${id}`);
 
+// Releases
+export const fetchReleases = () => api.get('/releases');
+export const createRelease = (releaseData) => api.post('/releases', releaseData);
+export const deleteRelease = (id) => api.delete(`/releases/${id}`);
+
 // Contact
 export const createContact = (contactData) => api.post('/contact', contactData);
 export const fetchContacts = () => api.get('/contact');

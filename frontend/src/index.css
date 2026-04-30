@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply font-sans bg-[#0f0f0f] text-gray-100;
+    @apply font-sans bg-black text-white;
   }
 }
 
@@ -27,21 +27,21 @@
 }
 
 .secondary-text {
-  @apply text-gray-400;
+  @apply text-white;
 }
 
-.accent-yellow {
+.accent-green {
   @apply bg-yellow-500;
 }
 
-.accent-yellow-text {
+.accent-green-text {
   @apply text-yellow-500;
 }
 
 .card-bg {
-  @apply bg-gray-800;
+  @apply bg-black;
 }
 
 .border-light {
-  @apply border-gray-700;
+  @apply border-yellow-500/20;
 }

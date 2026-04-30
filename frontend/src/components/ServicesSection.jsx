@@ -41,13 +41,13 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="py-24 bg-slate-900 border-t border-slate-800">
+    <section id="services" className="py-24 bg-black border-t border-yellow-500/20">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Our <span className="text-yellow-500">Services</span>
           </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto text-lg border-b border-slate-700 pb-8">
+          <p className="text-white max-w-2xl mx-auto text-lg border-b border-yellow-500/20 pb-8">
             Professional solutions for every step of your musical journey.
           </p>
         </div>
@@ -60,14 +60,14 @@ const ServicesSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               key={service._id}
-              className="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-yellow-500 transition-colors duration-300 group shadow-lg hover:shadow-xl flex flex-col h-full"
+              className="bg-black rounded-2xl p-8 border border-yellow-500/20 hover:border-yellow-500 transition-colors duration-300 group shadow-lg hover:shadow-xl flex flex-col h-full"
             >
-              <div className="w-14 h-14 bg-slate-900 shadow-sm rounded-xl flex items-center justify-center mb-6 group-hover:bg-yellow-500 transition-colors duration-300">
-                <i className={`${service.iconClass} text-2xl text-yellow-500 group-hover:text-gray-900 transition-colors`}></i>
+              <div className="w-14 h-14 bg-black shadow-sm rounded-xl flex items-center justify-center mb-6 group-hover:bg-yellow-500 transition-colors duration-300">
+                <i className={`${service.iconClass} text-2xl text-yellow-500 group-hover:text-white transition-colors`}></i>
               </div>
               
               <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
-              <p className="text-gray-300 mb-6 leading-relaxed flex-grow">
+              <p className="text-white mb-6 leading-relaxed flex-grow">
                 {service.description}
               </p>
 

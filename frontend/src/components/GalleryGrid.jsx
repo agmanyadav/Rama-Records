@@ -25,10 +25,10 @@ const GalleryGrid = () => {
   if (!loading && images.length === 0) return null;
 
   return (
-    <section id="gallery" className="py-24 bg-gray-100 border-t border-gray-200">
+    <section id="gallery" className="py-24 bg-black border-t border-yellow-500/20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Studio <span className="text-yellow-500">Gallery</span>
           </h2>
         </div>
@@ -68,7 +68,7 @@ const GalleryGrid = () => {
         )}
 
         <div className="text-center">
-            <Link to="/gallery" className="inline-block border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-gray-900 font-bold py-3 px-8 rounded-full transition-colors duration-300">
+            <Link to="/gallery" className="inline-block border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
                 View Full Gallery
             </Link>
         </div>
@@ -82,11 +82,11 @@ const GalleryGrid = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-gray-900/98 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
             onClick={() => setSelectedImage(null)}
           >
             <button
-              className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors p-2"
+              className="absolute top-6 right-6 text-white hover:text-white transition-colors p-2"
               onClick={() => setSelectedImage(null)}
             >
               <i className="fas fa-times text-3xl"></i>

@@ -72,7 +72,7 @@ const SongCarousel = () => {
   };
 
   return (
-    <section id="songs" className="py-20 px-6 bg-gray-100 border-t border-gray-200">
+    <section id="songs" className="py-20 px-6 bg-black border-t border-yellow-500/20">
       <div className="max-w-6xl mx-auto">
         <h3 className="text-3xl font-bold mb-12 text-center text-yellow-500 section-title">
           Latest Releases
@@ -101,7 +101,7 @@ const SongCarousel = () => {
                     onClick={(e) => { e.stopPropagation(); handlePlay(); }}
                     className="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
                   >
-                    <i className="fas fa-play text-gray-900 text-xl ml-1"></i>
+                    <i className="fas fa-play text-white text-xl ml-1"></i>
                   </button>
                 </div>
               </motion.div>
@@ -112,28 +112,28 @@ const SongCarousel = () => {
             key={`title-${current}`}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center font-semibold text-yellow-600 text-xl mb-2"
+            className="text-center font-semibold text-yellow-500 text-xl mb-2"
           >
             {song.title}
           </motion.p>
-          <p className="text-gray-600 text-sm mb-4">{song.artists}</p>
+          <p className="text-white text-sm mb-4">{song.artists}</p>
 
           <div className="flex space-x-4 mb-6">
-            <i className="fab fa-spotify text-2xl text-yellow-500 hover:text-gray-800 cursor-pointer transition-colors"></i>
-            <i className="fab fa-apple text-2xl text-yellow-500 hover:text-gray-800 cursor-pointer transition-colors"></i>
-            <i className="fab fa-youtube text-2xl text-yellow-500 hover:text-gray-800 cursor-pointer transition-colors"></i>
+            <i className="fab fa-spotify text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
+            <i className="fab fa-apple text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
+            <i className="fab fa-youtube text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
           </div>
 
           <div className="flex space-x-4">
             <button
               onClick={() => goTo(-1)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-6 py-2 rounded-full text-xl transition-all duration-300 transform hover:scale-110 shadow-md"
+              className="bg-yellow-500 hover:bg-yellow-500 text-white px-6 py-2 rounded-full text-xl transition-all duration-300 transform hover:scale-110 shadow-md"
             >
               <i className="fas fa-arrow-left"></i>
             </button>
             <button
               onClick={() => goTo(1)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-6 py-2 rounded-full text-xl transition-all duration-300 transform hover:scale-110 shadow-md"
+              className="bg-yellow-500 hover:bg-yellow-500 text-white px-6 py-2 rounded-full text-xl transition-all duration-300 transform hover:scale-110 shadow-md"
             >
               <i className="fas fa-arrow-right"></i>
             </button>
@@ -146,7 +146,7 @@ const SongCarousel = () => {
                 key={idx}
                 onClick={() => { setDirection(idx > current ? 1 : -1); setCurrent(idx); }}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                  idx === current ? 'bg-yellow-500 scale-125' : 'bg-gray-400'
+                  idx === current ? 'bg-yellow-500 scale-125' : 'bg-black'
                 }`}
               />
             ))}

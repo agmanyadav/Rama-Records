@@ -28,14 +28,14 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
-      <div className="bg-gray-800 rounded-2xl p-8 w-full max-w-md border border-gray-700 shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="bg-black rounded-2xl p-8 w-full max-w-md border border-yellow-500/20 shadow-2xl">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <i className="fas fa-shield-alt text-yellow-500 text-2xl"></i>
           </div>
           <h2 className="text-2xl font-bold text-white">Admin Login</h2>
-          <p className="text-gray-400 text-sm mt-1">Rama Records Dashboard</p>
+          <p className="text-white text-sm mt-1">Rama Records Dashboard</p>
         </div>
 
         <div className="space-y-6">
@@ -67,7 +67,7 @@ const AdminLogin = () => {
           )}
 
           <div className="text-center">
-            <p className="text-gray-500 text-xs mt-4">
+            <p className="text-white text-xs mt-4">
               <i className="fas fa-lock mr-1"></i>
               Only the authorized admin Google account can access this dashboard.
             </p>

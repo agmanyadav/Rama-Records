@@ -23,17 +23,17 @@ const GalleryPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white pt-24 pb-12 px-4 transition-all duration-300">
+    <div className="min-h-screen bg-black pt-24 pb-12 px-4 transition-all duration-300">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Studio <span className="text-yellow-500">Gallery</span></h1>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Studio <span className="text-yellow-500">Gallery</span></h1>
+          <p className="text-white text-lg max-w-2xl mx-auto">
             Take a look inside Rama Records.
           </p>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-gray-500">
+          <div className="text-center py-20 text-white">
             <i className="fas fa-spinner fa-spin text-4xl mb-4 block text-yellow-500"></i>
             Loading Gallery...
           </div>
@@ -68,7 +68,7 @@ const GalleryPage = () => {
             </div>
 
             {images.length === 0 && (
-              <div className="text-center py-20 text-gray-500">
+              <div className="text-center py-20 text-white">
                 <i className="fas fa-images text-4xl mb-4 block"></i>
                 No images available yet.
               </div>
@@ -84,11 +84,11 @@ const GalleryPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-gray-900/98 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
             onClick={() => setSelectedImage(null)}
           >
             <button
-              className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors p-2"
+              className="absolute top-6 right-6 text-white hover:text-white transition-colors p-2"
               onClick={() => setSelectedImage(null)}
             >
               <i className="fas fa-times text-3xl"></i>

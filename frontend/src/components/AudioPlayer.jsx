@@ -41,7 +41,7 @@ const AudioPlayer = () => {
   const coverUrl = currentSong.coverUrl || getStaticUrl(currentSong.coverImage);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-lg border-t border-gray-800 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-lg border-t border-yellow-500/20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] z-50">
       <div className="max-w-screen-2xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           {/* Song Info */}
@@ -55,11 +55,11 @@ const AudioPlayer = () => {
               <h4 className="font-medium text-sm text-white truncate">
                 {currentSong.title}
               </h4>
-              <p className="text-xs text-gray-400 truncate">
+              <p className="text-xs text-white truncate">
                 {currentSong.artists}
               </p>
             </div>
-            <button className="text-gray-400 hover:text-yellow-500 transition-colors flex-shrink-0 hidden sm:block">
+            <button className="text-white hover:text-yellow-500 transition-colors flex-shrink-0 hidden sm:block">
               <i className="far fa-heart text-lg"></i>
             </button>
           </div>
@@ -69,7 +69,7 @@ const AudioPlayer = () => {
             <div className="flex items-center space-x-5 mb-2">
               <button
                 onClick={prevSong}
-                className="text-gray-300 hover:text-white transition-colors"
+                className="text-white hover:text-white transition-colors"
               >
                 <i className="fas fa-backward-step text-lg"></i>
               </button>
@@ -77,22 +77,22 @@ const AudioPlayer = () => {
                 onClick={togglePlay}
                 className="bg-yellow-500 hover:bg-yellow-400 rounded-full w-9 h-9 flex items-center justify-center transition-all hover:scale-105 shadow-md"
               >
-                <i className={`fas ${isPlaying ? 'fa-pause' : 'fa-play'} text-gray-900 text-sm ${!isPlaying ? 'ml-0.5' : ''}`}></i>
+                <i className={`fas ${isPlaying ? 'fa-pause' : 'fa-play'} text-white text-sm ${!isPlaying ? 'ml-0.5' : ''}`}></i>
               </button>
               <button
                 onClick={nextSong}
-                className="text-gray-300 hover:text-white transition-colors"
+                className="text-white hover:text-white transition-colors"
               >
                 <i className="fas fa-forward-step text-lg"></i>
               </button>
             </div>
 
             <div className="w-full flex items-center space-x-2">
-              <span className="text-xs text-gray-400 w-10 text-right font-mono">
+              <span className="text-xs text-white w-10 text-right font-mono">
                 {formatTime(currentTime)}
               </span>
               <div
-                className="h-1.5 bg-gray-700 rounded-full flex-1 cursor-pointer group relative"
+                className="h-1.5 bg-white/20 rounded-full flex-1 cursor-pointer group relative"
                 onClick={handleProgressClick}
               >
                 <div
@@ -102,7 +102,7 @@ const AudioPlayer = () => {
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
               </div>
-              <span className="text-xs text-gray-400 w-10 font-mono">
+              <span className="text-xs text-white w-10 font-mono">
                 {formatTime(duration)}
               </span>
             </div>
@@ -110,11 +110,11 @@ const AudioPlayer = () => {
 
           {/* Volume */}
           <div className="hidden sm:flex items-center space-x-3 w-1/4 justify-end">
-            <button className="text-gray-400 hover:text-white transition-colors">
+            <button className="text-white hover:text-white transition-colors">
               <i className={`fas ${volume === 0 ? 'fa-volume-mute' : volume < 0.5 ? 'fa-volume-low' : 'fa-volume-high'} text-lg`}></i>
             </button>
             <div
-              className="w-24 h-1.5 bg-gray-700 rounded-full cursor-pointer group relative"
+              className="w-24 h-1.5 bg-white/20 rounded-full cursor-pointer group relative"
               onClick={handleVolumeClick}
             >
               <div

@@ -59,11 +59,11 @@ const BeatsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 pt-24 pb-12 px-4 transition-all duration-300">
+    <div className="min-h-screen bg-black pt-24 pb-12 px-4 transition-all duration-300">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Instrumental <span className="text-yellow-500">Beats</span></h1>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Instrumental <span className="text-yellow-500">Beats</span></h1>
+          <p className="text-white text-lg max-w-2xl mx-auto">
             Browse our exclusive catalog of high-quality instrumental beats.
             Ready for your next track? Find your perfect sound below and purchase.
           </p>
@@ -74,15 +74,15 @@ const BeatsPage = () => {
           <input
             type="text"
             placeholder="Search beats by title or tags..."
-            className="w-full bg-gray-800 border border-gray-700 text-white rounded-full py-4 pl-14 pr-6 focus:outline-none focus:border-yellow-500 transition-colors shadow-lg"
+            className="w-full bg-black border border-yellow-500/20 text-white rounded-full py-4 pl-14 pr-6 focus:outline-none focus:border-yellow-500 transition-colors shadow-lg"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <i className="fas fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+          <i className="fas fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-white"></i>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-gray-500">
+          <div className="text-center py-20 text-white">
             <i className="fas fa-spinner fa-spin text-4xl mb-4 block text-yellow-500"></i>
             Loading Beats...
           </div>
@@ -96,11 +96,11 @@ const BeatsPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className={`bg-gray-800 rounded-2xl overflow-hidden border transition-all duration-300 group ${
-                    currentSong?.id === beat._id ? 'border-yellow-500 shadow-lg shadow-yellow-500/20' : 'border-gray-700 hover:border-yellow-500/50'
+                  className={`bg-black rounded-2xl overflow-hidden border transition-all duration-300 group ${
+                    currentSong?.id === beat._id ? 'border-yellow-500 shadow-lg shadow-yellow-500/20' : 'border-yellow-500/20 hover:border-yellow-500/50'
                   }`}
                 >
-                  <div className="relative aspect-square overflow-hidden bg-gray-900">
+                  <div className="relative aspect-square overflow-hidden bg-black">
                     <img
                       src={getStaticUrl(beat.coverImage)}
                       alt={beat.title}
@@ -113,7 +113,7 @@ const BeatsPage = () => {
                           onClick={() => handlePlay(beat, index)}
                           className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-transform cursor-pointer"
                         >
-                          <i className={`fas ${isCurrentPlaying ? 'fa-pause' : 'fa-play'} text-gray-900 ${isCurrentPlaying ? '' : 'pl-1'} text-xl`}></i>
+                          <i className={`fas ${isCurrentPlaying ? 'fa-pause' : 'fa-play'} text-white ${isCurrentPlaying ? '' : 'pl-1'} text-xl`}></i>
                         </button>
                     </div>
                   </div>
@@ -122,10 +122,10 @@ const BeatsPage = () => {
                     <div className="flex justify-between items-start mb-2">
                         <div>
                             <h3 className="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors line-clamp-1">{beat.title}</h3>
-                            <p className="text-sm text-gray-400 line-clamp-1">{beat.tags || 'Instrumental'}</p>
+                            <p className="text-sm text-white line-clamp-1">{beat.tags || 'Instrumental'}</p>
                         </div>
                         {beat.price && (
-                            <div className="bg-gray-700 px-3 py-1 rounded-full text-sm font-bold text-yellow-500 whitespace-nowrap">
+                            <div className="bg-black px-3 py-1 rounded-full text-sm font-bold text-yellow-500 whitespace-nowrap">
                                 {beat.price}
                             </div>
                         )}
@@ -133,7 +133,7 @@ const BeatsPage = () => {
                     
                     <button
                       onClick={() => handleBuy(beat)}
-                      className="mt-4 w-full block text-center bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-lg transition-colors cursor-pointer shadow-md"
+                      className="mt-4 w-full block text-center bg-yellow-500 hover:bg-yellow-500 text-white font-bold py-3 rounded-lg transition-colors cursor-pointer shadow-md"
                     >
                       <i className="fas fa-shopping-cart mr-2"></i>
                       {beat.price ? `Buy Now - ${beat.price}` : 'Get This Beat'}
@@ -146,7 +146,7 @@ const BeatsPage = () => {
         )}
 
         {!loading && filteredBeats.length === 0 && (
-          <div className="text-center py-20 text-gray-500">
+          <div className="text-center py-20 text-white">
             <i className="fas fa-compact-disc text-4xl mb-4 block"></i>
             No beats found matching your search.
           </div>
@@ -167,7 +167,7 @@ const BeatsPage = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-gray-800 rounded-2xl w-full max-w-md p-8 border border-gray-700 shadow-2xl"
+              className="bg-black rounded-2xl w-full max-w-md p-8 border border-yellow-500/20 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center mb-6">
@@ -179,7 +179,7 @@ const BeatsPage = () => {
                   onContextMenu={(e) => e.preventDefault()}
                 />
                 <h3 className="text-2xl font-bold text-white">{buyModal.title}</h3>
-                <p className="text-gray-400">{buyModal.tags || 'Instrumental Beat'}</p>
+                <p className="text-white">{buyModal.tags || 'Instrumental Beat'}</p>
                 {buyModal.price && (
                   <div className="mt-2 inline-block bg-yellow-500/20 text-yellow-400 font-bold text-xl px-4 py-1 rounded-full">
                     {buyModal.price}
@@ -200,7 +200,7 @@ const BeatsPage = () => {
                   href={`https://wa.me/919368172591?text=${encodeURIComponent(`Hi! I'm interested in buying the beat "${buyModal.title}"${buyModal.price ? ` (${buyModal.price})` : ''}. Please share more details.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-3 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md"
+                  className="w-full flex items-center justify-center gap-3 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md"
                 >
                   <i className="fab fa-whatsapp text-xl"></i>
                   WhatsApp Us
@@ -209,7 +209,7 @@ const BeatsPage = () => {
 
               <button
                 onClick={() => setBuyModal(null)}
-                className="mt-4 w-full text-gray-500 hover:text-gray-300 text-sm transition-colors"
+                className="mt-4 w-full text-white hover:text-white text-sm transition-colors"
               >
                 Cancel
               </button>

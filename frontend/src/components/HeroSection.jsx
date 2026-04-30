@@ -19,35 +19,7 @@ const HeroSection = ({ onBookSession }) => {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0f0f0f]" />
-
-      {/* Character Left */}
-      <motion.div
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.3 }}
-        className="absolute left-[3%] bottom-0 hidden lg:flex items-end z-10"
-      >
-        <img
-          src={getStaticUrl('/images/left_char.png')}
-          alt="Artist Character"
-          className="h-[70vh] object-contain drop-shadow-[0_0_20px_rgba(234,179,8,0.3)]"
-        />
-      </motion.div>
-
-      {/* Character Right */}
-      <motion.div
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.3 }}
-        className="absolute right-[3%] bottom-0 hidden lg:flex items-end z-10"
-      >
-        <img
-          src={getStaticUrl('/images/right_char.png')}
-          alt="Artist Character"
-          className="h-[70vh] object-contain drop-shadow-[0_0_20px_rgba(234,179,8,0.3)]"
-        />
-      </motion.div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
 
       {/* Center Content */}
       <div className="relative z-20 text-center px-6">
@@ -99,7 +71,7 @@ const HeroSection = ({ onBookSession }) => {
             whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(234,179,8,0.4)' }}
             whileTap={{ scale: 0.95 }}
             onClick={onBookSession}
-            className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-10 rounded-full text-lg transition-all duration-300 shadow-lg"
+            className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-10 rounded-full text-lg transition-all duration-300 shadow-lg"
           >
             <i className="fas fa-calendar-alt mr-2"></i>Book Session
           </motion.button>
