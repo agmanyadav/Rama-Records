@@ -290,9 +290,9 @@ const AdminDashboard = () => {
           <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center z-[60] p-4 text-white">
               <div className="bg-black rounded-xl w-full max-w-lg p-6 relative">
                  <button onClick={() => setShowReleaseModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
-                 <h2 className="text-2xl font-bold mb-4 text-black">Add Release</h2>
+                 <h2 className="text-2xl font-bold mb-4 text-white">Add Release</h2>
                  <form onSubmit={handleAddReleaseSubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
-                     <input type="url" placeholder="YouTube Video URL" required value={newRelease.youtubeUrl} onChange={e => setNewRelease({...newRelease, youtubeUrl: e.target.value})} className="w-full border rounded p-2 text-white placeholder-white" />
+                     <input type="url" placeholder="YouTube Video URL" required value={newRelease.youtubeUrl} onChange={e => setNewRelease({...newRelease, youtubeUrl: e.target.value})} className="w-full border rounded p-2 text-black placeholder-white" />
                      <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : 'Add Release'}</button>
                  </form>
               </div>
