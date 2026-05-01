@@ -8,12 +8,14 @@ import GalleryPage from './pages/GalleryPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ReleasesPage from './pages/ReleasesPage';
+import ScrollToHash from './components/ScrollToHash';
 import './App.css';
 
 function App() {
   return (
     <PlayerProvider>
       <Router>
+        <ScrollToHash />
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />

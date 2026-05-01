@@ -34,7 +34,7 @@ const CEOSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <h3 className="text-3xl md:text-4xl font-bold mb-4 text-yellow-500">
-            CEO & Founder
+            Founder & CEO
           </h3>
           <p className="text-lg text-white mb-2 font-semibold">Anurag Dhiman</p>
           <div className="text-white text-base leading-relaxed space-y-4">

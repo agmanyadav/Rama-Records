@@ -71,7 +71,12 @@ export const getStaticUrl = (path) => {
   if (!path) return '';
   // If it's already a full URL (Cloudinary, etc.), return as-is
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
-  // Otherwise, prepend the backend static URL
+  
+  // If it's an image path, return as-is to load directly from frontend's public/images folder
+  // This bypasses the backend 30s cold start for static landing page images
+  if (path.startsWith('/images/')) return path;
+
+  // Otherwise, prepend the backend static URL (e.g. for /songs/)
   return `${STATIC_BASE_URL}${path}`;
 };
 

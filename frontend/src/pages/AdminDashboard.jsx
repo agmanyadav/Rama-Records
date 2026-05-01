@@ -30,7 +30,7 @@ const AdminDashboard = () => {
   const [newGallery, setNewGallery] = useState({ title: '', featured: false });
   const [galleryFile, setGalleryFile] = useState(null);
 
-  const [newRelease, setNewRelease] = useState({ youtubeUrl: '' });
+  const [newRelease, setNewRelease] = useState({ youtubeUrl: '', title: '' });
   
   const navigate = useNavigate();
 
@@ -122,7 +122,7 @@ const AdminDashboard = () => {
     try {
         setUploading(true);
         await createRelease(newRelease);
-        setShowReleaseModal(false); setNewRelease({ youtubeUrl: '' }); loadData();
+        setShowReleaseModal(false); setNewRelease({ youtubeUrl: '', title: '' }); loadData();
     } catch (err) { 
       console.error('Release save error:', err.response?.data || err.message);
       alert('Failed to save release: ' + (err.response?.data?.message || err.message)); 
@@ -231,10 +231,10 @@ const AdminDashboard = () => {
                 <div className="mb-4 flex justify-end"><button onClick={() => setShowReleaseModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Add New Release</button></div>
                 <div className="bg-black rounded-xl shadow-sm overflow-x-auto">
                     <table className="w-full text-sm">
-                    <thead className="bg-black border-b"><tr><th className="p-4 text-left font-semibold text-white">YouTube URL</th><th className="p-4 text-left font-semibold text-white">Added On</th><th className="p-4 text-left font-semibold text-white">Actions</th></tr></thead>
+                    <thead className="bg-black border-b"><tr><th className="p-4 text-left font-semibold text-white">Title</th><th className="p-4 text-left font-semibold text-white">YouTube URL</th><th className="p-4 text-left font-semibold text-white">Added On</th><th className="p-4 text-left font-semibold text-white">Actions</th></tr></thead>
                     <tbody className="text-white">
                         {releases.map((r) => (
-                        <tr key={r._id} className="border-b"><td className="p-4 font-medium text-blue-600"><a href={r.youtubeUrl} target="_blank" rel="noreferrer">{r.youtubeUrl}</a></td><td className="p-4">{new Date(r.createdAt).toLocaleDateString()}</td><td className="p-4"><button onClick={() => handleDeleteItem(r._id, 'release')} className="text-red-500 hover:text-red-700"><i className="fas fa-trash"></i></button></td></tr>
+                        <tr key={r._id} className="border-b"><td className="p-4 text-white">{r.title || <span className="text-white/40 italic">No title</span>}</td><td className="p-4 font-medium text-blue-600"><a href={r.youtubeUrl} target="_blank" rel="noreferrer">{r.youtubeUrl}</a></td><td className="p-4">{new Date(r.createdAt).toLocaleDateString()}</td><td className="p-4"><button onClick={() => handleDeleteItem(r._id, 'release')} className="text-red-500 hover:text-red-700"><i className="fas fa-trash"></i></button></td></tr>
                         ))}
                     </tbody></table>
                 </div>
@@ -292,7 +292,8 @@ const AdminDashboard = () => {
                  <button onClick={() => setShowReleaseModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
                  <h2 className="text-2xl font-bold mb-4 text-white">Add Release</h2>
                  <form onSubmit={handleAddReleaseSubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
-                     <input type="url" placeholder="YouTube Video URL" required value={newRelease.youtubeUrl} onChange={e => setNewRelease({...newRelease, youtubeUrl: e.target.value})} className="w-full border rounded p-2 text-black placeholder-white" />
+                     <input type="text" placeholder="Video Title / Search Name" value={newRelease.title} onChange={e => setNewRelease({...newRelease, title: e.target.value})} className="w-full border rounded p-2 text-white placeholder-white" />
+                     <input type="url" placeholder="YouTube Video URL" required value={newRelease.youtubeUrl} onChange={e => setNewRelease({...newRelease, youtubeUrl: e.target.value})} className="w-full border rounded p-2 text-white placeholder-white" />
                      <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : 'Add Release'}</button>
                  </form>
               </div>

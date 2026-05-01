@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getStaticUrl } from '../api/api';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const userInfoStr = localStorage.getItem('userInfo');
   const isAdmin = userInfoStr && userInfoStr !== 'undefined' && userInfoStr !== 'null';
 
@@ -15,14 +16,16 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleNavClick = (e, href) => {
+  const handleNavClick = (e, hash) => {
     e.preventDefault();
     setMobileOpen(false);
     if (location.pathname !== '/') {
-      window.location.href = '/' + href;
+      // Navigate to home page with hash — ScrollToHash handles the scroll
+      navigate('/' + hash);
       return;
     }
-    const el = document.querySelector(href);
+    // Already on home page — scroll directly
+    const el = document.querySelector(hash);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 

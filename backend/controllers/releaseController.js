@@ -17,14 +17,15 @@ const getReleases = async (req, res) => {
 // @access  Private/Admin
 const createRelease = async (req, res) => {
     try {
-        const { youtubeUrl } = req.body;
+        const { youtubeUrl, title } = req.body;
 
         if (!youtubeUrl) {
             return res.status(400).json({ message: 'YouTube URL is required' });
         }
 
         const release = new Release({
-            youtubeUrl
+            youtubeUrl,
+            title: title || '',
         });
 
         const createdRelease = await release.save();
