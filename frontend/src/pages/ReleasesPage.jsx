@@ -230,22 +230,7 @@ const ReleasesPage = () => {
                             <div id="yt-hero-player" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
                         </motion.div>
 
-                        {/* Hero video indicator dots */}
-                        {filteredReleases.length > 1 && (
-                            <div className="flex justify-center gap-2 mb-4">
-                                {filteredReleases.map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => handleThumbnailClick(idx)}
-                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                            idx === currentIndex
-                                                ? 'bg-yellow-500 scale-125'
-                                                : 'bg-white/30 hover:bg-white/60'
-                                        }`}
-                                    />
-                                ))}
-                            </div>
-                        )}
+
 
                         {/* ── Search Bar ── */}
                         <div className="flex justify-center mb-4">
