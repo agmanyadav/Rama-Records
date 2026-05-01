@@ -251,15 +251,15 @@ const AdminDashboard = () => {
                  <button onClick={() => setShowSongModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
                  <h2 className="text-2xl font-bold mb-4 text-white">Add Song</h2>
                  <form onSubmit={handleAddSongSubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
-                     <input type="text" placeholder="Title" required value={newSong.title} onChange={e => setNewSong({...newSong, title: e.target.value})} className="w-full border rounded p-2 text-black placeholder-white" />
-                     <input type="text" placeholder="Artists" required value={newSong.artists} onChange={e => setNewSong({...newSong, artists: e.target.value})} className="w-full border rounded p-2 text-black placeholder-white" />
-                     <div className="flex gap-2"><input type="text" placeholder="Album" required value={newSong.album} onChange={e => setNewSong({...newSong, album: e.target.value})} className="w-1/2 border rounded p-2 text-black placeholder-white" /><input type="text" placeholder="Duration (3:45)" required value={newSong.duration} onChange={e => setNewSong({...newSong, duration: e.target.value})} className="w-1/2 border rounded p-2 text-black placeholder-white" /></div>
+                     <input type="text" placeholder="Title" required value={newSong.title} onChange={e => setNewSong({...newSong, title: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
+                     <input type="text" placeholder="Artists" required value={newSong.artists} onChange={e => setNewSong({...newSong, artists: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
+                     <div className="flex gap-2"><input type="text" placeholder="Album" required value={newSong.album} onChange={e => setNewSong({...newSong, album: e.target.value})} className="w-1/2 border rounded p-2 text-black bg-white placeholder-gray-500" /><input type="text" placeholder="Duration (3:45)" required value={newSong.duration} onChange={e => setNewSong({...newSong, duration: e.target.value})} className="w-1/2 border rounded p-2 text-black bg-white placeholder-gray-500" /></div>
                      <div className="bg-black p-3 rounded text-sm mb-2">
                          <label className="block text-white font-bold mb-2">DSP Links (Optional)</label>
                          <div className="space-y-2">
-                             <input type="url" placeholder="Spotify URL" value={newSong.dsps.spotify} onChange={e => setNewSong({...newSong, dsps: {...newSong.dsps, spotify: e.target.value}})} className="w-full border rounded p-2 text-black placeholder-white" />
-                             <input type="url" placeholder="Apple Music URL" value={newSong.dsps.apple} onChange={e => setNewSong({...newSong, dsps: {...newSong.dsps, apple: e.target.value}})} className="w-full border rounded p-2 text-black placeholder-white" />
-                             <input type="url" placeholder="YouTube URL" value={newSong.dsps.youtube} onChange={e => setNewSong({...newSong, dsps: {...newSong.dsps, youtube: e.target.value}})} className="w-full border rounded p-2 text-black placeholder-white" />
+                             <input type="url" placeholder="Spotify URL" value={newSong.dsps.spotify} onChange={e => setNewSong({...newSong, dsps: {...newSong.dsps, spotify: e.target.value}})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
+                             <input type="url" placeholder="Apple Music URL" value={newSong.dsps.apple} onChange={e => setNewSong({...newSong, dsps: {...newSong.dsps, apple: e.target.value}})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
+                             <input type="url" placeholder="YouTube URL" value={newSong.dsps.youtube} onChange={e => setNewSong({...newSong, dsps: {...newSong.dsps, youtube: e.target.value}})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
                          </div>
                      </div>
                      <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Cover <input type="file" required onChange={e => setSongFiles({...songFiles, cover: e.target.files[0]})} className="text-white" /></div>
@@ -277,7 +277,7 @@ const AdminDashboard = () => {
                  <button onClick={() => setShowGalleryModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
                  <h2 className="text-2xl font-bold mb-4 text-white">Add Gallery Image</h2>
                  <form onSubmit={handleAddGallerySubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
-                     <input type="text" placeholder="Image Title/Caption" required value={newGallery.title} onChange={e => setNewGallery({...newGallery, title: e.target.value})} className="w-full border rounded p-2 text-black placeholder-white" />
+                     <input type="text" placeholder="Image Title/Caption" required value={newGallery.title} onChange={e => setNewGallery({...newGallery, title: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
                      <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Image <input type="file" required onChange={e => setGalleryFile(e.target.files[0])} className="text-white" /></div>
                      <div><label className="text-sm text-white font-medium"><input type="checkbox" checked={newGallery.featured} onChange={e => setNewGallery({...newGallery, featured: e.target.checked})} className="mr-1" /> Featured on Homepage?</label></div>
                      <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : 'Upload Image'}</button>
@@ -292,8 +292,8 @@ const AdminDashboard = () => {
                  <button onClick={() => setShowReleaseModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
                  <h2 className="text-2xl font-bold mb-4 text-white">Add Release</h2>
                  <form onSubmit={handleAddReleaseSubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
-                     <input type="text" placeholder="Video Title / Search Name" value={newRelease.title} onChange={e => setNewRelease({...newRelease, title: e.target.value})} className="w-full border rounded p-2 text-black placeholder-white" />
-                     <input type="url" placeholder="YouTube Video URL" required value={newRelease.youtubeUrl} onChange={e => setNewRelease({...newRelease, youtubeUrl: e.target.value})} className="w-full border rounded p-2 text-black placeholder-white" />
+                     <input type="text" placeholder="Video Title / Search Name" value={newRelease.title} onChange={e => setNewRelease({...newRelease, title: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
+                     <input type="url" placeholder="YouTube Video URL" required value={newRelease.youtubeUrl} onChange={e => setNewRelease({...newRelease, youtubeUrl: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
                      <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : 'Add Release'}</button>
                  </form>
               </div>
