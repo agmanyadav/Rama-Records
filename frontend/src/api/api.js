@@ -44,6 +44,7 @@ export const deleteBeat = (id) => api.delete(`/beats/${id}`);
 export const fetchGallery = () => api.get('/gallery');
 export const fetchFeaturedGallery = () => api.get('/gallery/featured');
 export const createGallery = (galleryData) => api.post('/gallery', galleryData);
+export const updateGallery = (id, galleryData) => api.put(`/gallery/${id}`, galleryData);
 export const deleteGallery = (id) => api.delete(`/gallery/${id}`);
 
 // Services
@@ -55,6 +56,7 @@ export const deleteService = (id) => api.delete(`/services/${id}`);
 // Releases
 export const fetchReleases = () => api.get('/releases');
 export const createRelease = (releaseData) => api.post('/releases', releaseData);
+export const updateRelease = (id, releaseData) => api.put(`/releases/${id}`, releaseData);
 export const deleteRelease = (id) => api.delete(`/releases/${id}`);
 
 // Contact

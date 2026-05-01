@@ -53,8 +53,29 @@ const deleteRelease = async (req, res) => {
     }
 };
 
+const updateRelease = async (req, res) => {
+    try {
+        const { youtubeUrl, title } = req.body;
+
+        const release = await Release.findById(req.params.id);
+
+        if (release) {
+            release.youtubeUrl = youtubeUrl || release.youtubeUrl;
+            release.title = title || release.title;
+
+            const updatedRelease = await release.save();
+            res.json(updatedRelease);
+        } else {
+            res.status(404).json({ message: 'Release not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update release', error: error.message });
+    }
+};
+
 module.exports = {
     getReleases,
     createRelease,
     deleteRelease,
+    updateRelease,
 };

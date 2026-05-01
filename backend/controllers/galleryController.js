@@ -58,4 +58,37 @@ const deleteGallery = async (req, res) => {
     }
 };
 
-module.exports = { getGallery, getFeaturedGallery, createGallery, deleteGallery };
+const updateGallery = async (req, res) => {
+    try {
+        const { title, featured } = req.body;
+
+        const image = await Gallery.findById(req.params.id);
+
+        if (image) {
+            image.title = title || image.title;
+            
+            if (featured !== undefined && featured !== image.featured) {
+                if (featured) {
+                    const currentFeatured = await Gallery.find({ featured: true }).sort({ createdAt: -1 });
+                    if (currentFeatured.length >= MAX_FEATURED) {
+                        const toUnfeature = currentFeatured.slice(MAX_FEATURED - 1);
+                        for (const item of toUnfeature) {
+                            item.featured = false;
+                            await item.save();
+                        }
+                    }
+                }
+                image.featured = featured;
+            }
+
+            const updatedImage = await image.save();
+            res.json(updatedImage);
+        } else {
+            res.status(404).json({ message: 'Gallery image not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+module.exports = { getGallery, getFeaturedGallery, createGallery, deleteGallery, updateGallery };

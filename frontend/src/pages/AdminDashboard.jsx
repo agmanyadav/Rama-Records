@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { 
     fetchBookings, fetchContacts, fetchSongs, fetchGallery, fetchReleases,
     updateBookingStatus, deleteBooking, deleteSong, deleteGallery, deleteRelease,
-    createSong, createGallery, createRelease, uploadFiles, getStaticUrl 
+    createSong, createGallery, createRelease, uploadFiles, getStaticUrl,
+    updateSong, updateGallery, updateRelease
 } from '../api/api';
 
 const AdminDashboard = () => {
@@ -22,6 +23,7 @@ const AdminDashboard = () => {
   const [showSongModal, setShowSongModal] = useState(false);
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [showReleaseModal, setShowReleaseModal] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   // Form States
   const [newSong, setNewSong] = useState({ title: '', artists: '', album: 'Rama Records', duration: '', featured: false, dsps: { spotify: '', apple: '', youtube: '' } });
@@ -89,30 +91,57 @@ const AdminDashboard = () => {
     navigate('/admin');
   };
 
+  const handleEditClick = (item, type) => {
+    setEditingId(item._id);
+    if (type === 'song') {
+      setNewSong({ title: item.title, artists: item.artists, album: item.album, duration: item.duration, featured: item.featured, dsps: item.dsps || { spotify: '', apple: '', youtube: '' } });
+      setShowSongModal(true);
+    } else if (type === 'gallery') {
+      setNewGallery({ title: item.title, featured: item.featured });
+      setShowGalleryModal(true);
+    } else if (type === 'release') {
+      setNewRelease({ youtubeUrl: item.youtubeUrl, title: item.title });
+      setShowReleaseModal(true);
+    }
+  };
+
   const handleAddSongSubmit = async (e) => {
     e.preventDefault();
-    if (!songFiles.audio || !songFiles.cover) return alert("Select both .wav and cover image.");
+    if (!editingId && (!songFiles.audio || !songFiles.cover)) return alert("Select both .wav and cover image.");
     try {
         setUploading(true);
-        const formData = new FormData();
-        formData.append('audio', songFiles.audio);
-        formData.append('cover', songFiles.cover);
-        const uploadRes = await uploadFiles(formData);
-        await createSong({ ...newSong, audioFile: uploadRes.data.files.audioPath, coverImage: uploadRes.data.files.coverPath });
-        setShowSongModal(false); loadData();
+        let payload = { ...newSong };
+        if (!editingId) {
+            const formData = new FormData();
+            formData.append('audio', songFiles.audio);
+            formData.append('cover', songFiles.cover);
+            const uploadRes = await uploadFiles(formData);
+            payload.audioFile = uploadRes.data.files.audioPath;
+            payload.coverImage = uploadRes.data.files.coverPath;
+            await createSong(payload);
+        } else {
+            await updateSong(editingId, payload);
+        }
+        setShowSongModal(false); setEditingId(null); setNewSong({ title: '', artists: '', album: 'Rama Records', duration: '', featured: false, dsps: { spotify: '', apple: '', youtube: '' } }); loadData();
     } catch (err) { alert('Failed to save song.'); } finally { setUploading(false); }
   };
 
   const handleAddGallerySubmit = async (e) => {
     e.preventDefault();
-    if (!galleryFile) return alert("Select an image.");
+    if (!editingId && !galleryFile) return alert("Select an image.");
     try {
         setUploading(true);
-        const formData = new FormData();
-        formData.append('galleryImage', galleryFile);
-        const uploadRes = await uploadFiles(formData);
-        await createGallery({ ...newGallery, imagePath: uploadRes.data.files.galleryImagePath });
-        setShowGalleryModal(false); loadData();
+        let payload = { ...newGallery };
+        if (!editingId) {
+            const formData = new FormData();
+            formData.append('galleryImage', galleryFile);
+            const uploadRes = await uploadFiles(formData);
+            payload.imagePath = uploadRes.data.files.galleryImagePath;
+            await createGallery(payload);
+        } else {
+            await updateGallery(editingId, payload);
+        }
+        setShowGalleryModal(false); setEditingId(null); setNewGallery({ title: '', featured: false }); loadData();
     } catch (err) { alert('Failed to save gallery item.'); } finally { setUploading(false); }
   };
 
@@ -121,8 +150,12 @@ const AdminDashboard = () => {
     if (!newRelease.youtubeUrl) return alert("Enter YouTube URL.");
     try {
         setUploading(true);
-        await createRelease(newRelease);
-        setShowReleaseModal(false); setNewRelease({ youtubeUrl: '', title: '' }); loadData();
+        if (editingId) {
+            await updateRelease(editingId, newRelease);
+        } else {
+            await createRelease(newRelease);
+        }
+        setShowReleaseModal(false); setEditingId(null); setNewRelease({ youtubeUrl: '', title: '' }); loadData();
     } catch (err) { 
       console.error('Release save error:', err.response?.data || err.message);
       alert('Failed to save release: ' + (err.response?.data?.message || err.message)); 
@@ -166,12 +199,12 @@ const AdminDashboard = () => {
               <div className="bg-black rounded-xl shadow-sm overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-black border-b">
-                    <tr><th className="text-left p-4 font-semibold text-white">Name</th><th className="text-left p-4 font-semibold text-white">Email</th><th className="text-left p-4 font-semibold text-white">Service</th><th className="text-left p-4 font-semibold text-white">Status</th><th className="text-left p-4 font-semibold text-white">Actions</th></tr>
+                    <tr><th className="text-left p-4 font-semibold text-white">Name</th><th className="text-left p-4 font-semibold text-white">Email</th><th className="text-left p-4 font-semibold text-white">Phone</th><th className="text-left p-4 font-semibold text-white">Service</th><th className="text-left p-4 font-semibold text-white">Status</th><th className="text-left p-4 font-semibold text-white">Actions</th></tr>
                   </thead>
                   <tbody className="text-white">
                     {bookings.map((b) => (
                       <tr key={b._id} className="border-b hover:bg-black">
-                        <td className="p-4">{b.name}</td><td className="p-4">{b.email}</td><td className="p-4">{b.serviceType}</td>
+                        <td className="p-4">{b.name}</td><td className="p-4">{b.email}</td><td className="p-4">{b.phone || 'N/A'}</td><td className="p-4">{b.serviceType}</td>
                         <td className="p-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[b.status]}`}>{b.status}</span></td>
                         <td className="p-4 flex items-center gap-3">
                           <select value={b.status} onChange={(e) => handleStatusChange(b._id, e.target.value)} className="border rounded px-2 py-1 outline-none text-white bg-black"><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
@@ -197,13 +230,13 @@ const AdminDashboard = () => {
 
             {tab === 'songs' && (
               <div>
-                <div className="mb-4 flex justify-end"><button onClick={() => setShowSongModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Add New Song</button></div>
+                <div className="mb-4 flex justify-end"><button onClick={() => { setEditingId(null); setNewSong({ title: '', artists: '', album: 'Rama Records', duration: '', featured: false, dsps: { spotify: '', apple: '', youtube: '' } }); setShowSongModal(true); }} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Add New Song</button></div>
                 <div className="bg-black rounded-xl shadow-sm overflow-x-auto">
                     <table className="w-full text-sm">
                     <thead className="bg-black border-b"><tr><th className="p-4 text-left font-semibold text-white">Title</th><th className="p-4 text-left font-semibold text-white">Artists</th><th className="p-4 text-left font-semibold text-white">Featured</th><th className="p-4 text-left font-semibold text-white">Actions</th></tr></thead>
                     <tbody className="text-white">
                         {songs.map((s) => (
-                        <tr key={s._id} className="border-b"><td className="p-4 font-medium">{s.title}</td><td className="p-4">{s.artists}</td><td className="p-4">{s.featured ? '✅ Yes' : '⬜ No'}</td><td className="p-4"><button onClick={() => handleDeleteItem(s._id, 'song')} className="text-red-500 hover:text-red-700"><i className="fas fa-trash"></i></button></td></tr>
+                        <tr key={s._id} className="border-b"><td className="p-4 font-medium">{s.title}</td><td className="p-4">{s.artists}</td><td className="p-4">{s.featured ? '✅ Yes' : '⬜ No'}</td><td className="p-4 flex gap-3"><button onClick={() => handleEditClick(s, 'song')} className="text-blue-500 hover:text-blue-700"><i className="fas fa-edit"></i></button><button onClick={() => handleDeleteItem(s._id, 'song')} className="text-red-500 hover:text-red-700"><i className="fas fa-trash"></i></button></td></tr>
                         ))}
                     </tbody></table>
                 </div>
@@ -213,13 +246,16 @@ const AdminDashboard = () => {
 
             {tab === 'gallery' && (
               <div>
-                <div className="mb-4 flex justify-end"><button onClick={() => setShowGalleryModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Upload Image</button></div>
+                <div className="mb-4 flex justify-end"><button onClick={() => { setEditingId(null); setNewGallery({ title: '', featured: false }); setShowGalleryModal(true); }} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Upload Image</button></div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                    {gallery.map(g => (
                        <div key={g._id} className="bg-black p-2 rounded shadow-sm relative group">
                            <img src={getStaticUrl(g.imagePath)} className="w-full h-32 object-cover rounded" />
                            <div className="mt-2 text-sm text-white font-medium truncate">{g.title} {g.featured && <span className="text-yellow-600">(Featured)</span>}</div>
-                           <button onClick={() => handleDeleteItem(g._id, 'gallery')} className="absolute top-4 right-4 bg-red-500 text-white w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"><i className="fas fa-trash"></i></button>
+                           <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                               <button onClick={() => handleEditClick(g, 'gallery')} className="bg-blue-500 text-white w-8 h-8 rounded-full shadow-md hover:bg-blue-600"><i className="fas fa-edit"></i></button>
+                               <button onClick={() => handleDeleteItem(g._id, 'gallery')} className="bg-red-500 text-white w-8 h-8 rounded-full shadow-md hover:bg-red-600"><i className="fas fa-trash"></i></button>
+                           </div>
                        </div>
                    ))}
                 </div>
@@ -228,13 +264,13 @@ const AdminDashboard = () => {
 
             {tab === 'releases' && (
               <div>
-                <div className="mb-4 flex justify-end"><button onClick={() => setShowReleaseModal(true)} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Add New Release</button></div>
+                <div className="mb-4 flex justify-end"><button onClick={() => { setEditingId(null); setNewRelease({ youtubeUrl: '', title: '' }); setShowReleaseModal(true); }} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Add New Release</button></div>
                 <div className="bg-black rounded-xl shadow-sm overflow-x-auto">
                     <table className="w-full text-sm">
                     <thead className="bg-black border-b"><tr><th className="p-4 text-left font-semibold text-white">Title</th><th className="p-4 text-left font-semibold text-white">YouTube URL</th><th className="p-4 text-left font-semibold text-white">Added On</th><th className="p-4 text-left font-semibold text-white">Actions</th></tr></thead>
                     <tbody className="text-white">
                         {releases.map((r) => (
-                        <tr key={r._id} className="border-b"><td className="p-4 text-white">{r.title || <span className="text-white/40 italic">No title</span>}</td><td className="p-4 font-medium text-blue-600"><a href={r.youtubeUrl} target="_blank" rel="noreferrer">{r.youtubeUrl}</a></td><td className="p-4">{new Date(r.createdAt).toLocaleDateString()}</td><td className="p-4"><button onClick={() => handleDeleteItem(r._id, 'release')} className="text-red-500 hover:text-red-700"><i className="fas fa-trash"></i></button></td></tr>
+                        <tr key={r._id} className="border-b"><td className="p-4 text-white">{r.title || <span className="text-white/40 italic">No title</span>}</td><td className="p-4 font-medium text-blue-600"><a href={r.youtubeUrl} target="_blank" rel="noreferrer">{r.youtubeUrl}</a></td><td className="p-4">{new Date(r.createdAt).toLocaleDateString()}</td><td className="p-4 flex gap-3"><button onClick={() => handleEditClick(r, 'release')} className="text-blue-500 hover:text-blue-700"><i className="fas fa-edit"></i></button><button onClick={() => handleDeleteItem(r._id, 'release')} className="text-red-500 hover:text-red-700"><i className="fas fa-trash"></i></button></td></tr>
                         ))}
                     </tbody></table>
                 </div>
@@ -249,7 +285,7 @@ const AdminDashboard = () => {
           <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center z-[60] p-4 text-white">
               <div className="bg-black rounded-xl w-full max-w-lg p-6 relative">
                  <button onClick={() => setShowSongModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
-                 <h2 className="text-2xl font-bold mb-4 text-white">Add Song</h2>
+                 <h2 className="text-2xl font-bold mb-4 text-white">{editingId ? 'Edit Song' : 'Add Song'}</h2>
                  <form onSubmit={handleAddSongSubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
                      <input type="text" placeholder="Title" required value={newSong.title} onChange={e => setNewSong({...newSong, title: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
                      <input type="text" placeholder="Artists" required value={newSong.artists} onChange={e => setNewSong({...newSong, artists: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
@@ -262,10 +298,14 @@ const AdminDashboard = () => {
                              <input type="url" placeholder="YouTube URL" value={newSong.dsps.youtube} onChange={e => setNewSong({...newSong, dsps: {...newSong.dsps, youtube: e.target.value}})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
                          </div>
                      </div>
-                     <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Cover <input type="file" required onChange={e => setSongFiles({...songFiles, cover: e.target.files[0]})} className="text-white" /></div>
-                     <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Audio (.wav) <input type="file" required onChange={e => setSongFiles({...songFiles, audio: e.target.files[0]})} className="text-white" /></div>
+                     {!editingId && (
+                       <>
+                         <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Cover <input type="file" required onChange={e => setSongFiles({...songFiles, cover: e.target.files[0]})} className="text-white" /></div>
+                         <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Audio (.wav) <input type="file" required onChange={e => setSongFiles({...songFiles, audio: e.target.files[0]})} className="text-white" /></div>
+                       </>
+                     )}
                      <div><label className="text-sm text-white font-medium"><input type="checkbox" checked={newSong.featured} onChange={e => setNewSong({...newSong, featured: e.target.checked})} className="mr-1" /> Featured?</label></div>
-                     <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : 'Save'}</button>
+                     <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : (editingId ? 'Update' : 'Save')}</button>
                  </form>
               </div>
           </div>
@@ -275,12 +315,12 @@ const AdminDashboard = () => {
           <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center z-[60] p-4 text-white">
               <div className="bg-black rounded-xl w-full max-w-lg p-6 relative">
                  <button onClick={() => setShowGalleryModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
-                 <h2 className="text-2xl font-bold mb-4 text-white">Add Gallery Image</h2>
+                 <h2 className="text-2xl font-bold mb-4 text-white">{editingId ? 'Edit Gallery Image' : 'Add Gallery Image'}</h2>
                  <form onSubmit={handleAddGallerySubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
                      <input type="text" placeholder="Image Title/Caption" required value={newGallery.title} onChange={e => setNewGallery({...newGallery, title: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
-                     <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Image <input type="file" required onChange={e => setGalleryFile(e.target.files[0])} className="text-white" /></div>
+                     {!editingId && <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Image <input type="file" required onChange={e => setGalleryFile(e.target.files[0])} className="text-white" /></div>}
                      <div><label className="text-sm text-white font-medium"><input type="checkbox" checked={newGallery.featured} onChange={e => setNewGallery({...newGallery, featured: e.target.checked})} className="mr-1" /> Featured on Homepage?</label></div>
-                     <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : 'Upload Image'}</button>
+                     <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : (editingId ? 'Update' : 'Upload Image')}</button>
                  </form>
               </div>
           </div>
@@ -290,11 +330,11 @@ const AdminDashboard = () => {
           <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center z-[60] p-4 text-white">
               <div className="bg-black rounded-xl w-full max-w-lg p-6 relative">
                  <button onClick={() => setShowReleaseModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
-                 <h2 className="text-2xl font-bold mb-4 text-white">Add Release</h2>
+                 <h2 className="text-2xl font-bold mb-4 text-white">{editingId ? 'Edit Release' : 'Add Release'}</h2>
                  <form onSubmit={handleAddReleaseSubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
                      <input type="text" placeholder="Video Title / Search Name" value={newRelease.title} onChange={e => setNewRelease({...newRelease, title: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
                      <input type="url" placeholder="YouTube Video URL" required value={newRelease.youtubeUrl} onChange={e => setNewRelease({...newRelease, youtubeUrl: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
-                     <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : 'Add Release'}</button>
+                     <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : (editingId ? 'Update' : 'Add Release')}</button>
                  </form>
               </div>
           </div>
