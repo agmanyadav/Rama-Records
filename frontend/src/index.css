@@ -45,3 +45,236 @@
 .border-light {
   @apply border-yellow-500/20;
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   When html does NOT have .dark class, remap
+   the hardcoded dark-theme utility classes.
+   ============================================ */
+
+/* --- Body & base backgrounds --- */
+html.light body {
+  background-color: #f5f5f5 !important;
+  color: #1a1a1a !important;
+}
+
+/* --- bg-black → light background --- */
+html.light .bg-black {
+  background-color: #ffffff !important;
+}
+
+/* --- Navbar / AudioPlayer translucent backgrounds --- */
+html.light .bg-black\/95 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+html.light .bg-black\/80 {
+  background-color: rgba(255, 255, 255, 0.80) !important;
+}
+
+/* --- Text overrides --- */
+html.light .text-white {
+  color: #1a1a1a !important;
+}
+html.light .text-white\/40 {
+  color: rgba(26, 26, 26, 0.4) !important;
+}
+html.light .text-white\/50 {
+  color: rgba(26, 26, 26, 0.5) !important;
+}
+html.light .text-white\/60 {
+  color: rgba(26, 26, 26, 0.6) !important;
+}
+html.light .text-white\/30 {
+  color: rgba(26, 26, 26, 0.3) !important;
+}
+
+/* --- Placeholder text in light mode --- */
+html.light .placeholder-white::placeholder,
+html.light .placeholder-white\/40::placeholder {
+  color: #999 !important;
+}
+
+/* --- Background opacity variants --- */
+html.light .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+html.light .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* --- Border adjustments --- */
+html.light .border-b {
+  border-color: #e5e5e5;
+}
+html.light .border-yellow-500\/20 {
+  border-color: rgba(234, 179, 8, 0.35) !important;
+}
+html.light .border-yellow-500\/10 {
+  border-color: rgba(234, 179, 8, 0.25) !important;
+}
+html.light .border-yellow-500\/30 {
+  border-color: rgba(234, 179, 8, 0.45) !important;
+}
+
+/* --- Shadow adjustments (softer in light mode) --- */
+html.light .shadow-lg,
+html.light .shadow-sm,
+html.light .shadow-md {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+html.light .shadow-2xl {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ============================================
+   PRESERVE DARK STYLING IN OVERLAYS / HERO
+   These elements need white text on dark bg
+   even in light mode.
+   ============================================ */
+
+/* Hero section (has dark bg image + overlay) */
+html.light #home .text-white {
+  color: #ffffff !important;
+}
+html.light #home .bg-black {
+  background-color: #000000 !important;
+}
+
+/* Fixed fullscreen overlays (modals, lightboxes) —
+   keep text white inside the dark backdrop containers */
+html.light .fixed.inset-0 > .text-white,
+html.light .fixed.inset-0 > button.text-white,
+html.light .fixed.inset-0 > div > .text-white,
+html.light .fixed.inset-0 .bg-gradient-to-t .text-white {
+  color: #ffffff !important;
+}
+
+/* Lightbox close button */
+html.light .fixed.inset-0 > button {
+  color: #ffffff !important;
+}
+
+/* Gallery/lightbox overlay image caption on dark gradient */
+html.light .bg-gradient-to-t .text-white {
+  color: #ffffff !important;
+}
+
+/* --- Hover states --- */
+html.light .hover\:bg-black:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* --- Input backgrounds in forms (contact, booking) --- */
+html.light input.bg-black,
+html.light textarea.bg-black,
+html.light select.bg-black {
+  background-color: #f8f8f8 !important;
+  color: #1a1a1a !important;
+}
+
+/* --- Scrollbar in light mode --- */
+html.light ::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #eab308;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #ca8a04;
+}
+
+/* --- Selection color --- */
+html.light ::selection {
+  background: rgba(234, 179, 8, 0.3);
+  color: #1a1a1a;
+}
+
+/* --- Navbar shadow in light mode --- */
+html.light .shadow-lg.shadow-yellow-500\/20 {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* --- AudioPlayer bar --- */
+html.light .fixed.bottom-0 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-top-color: rgba(234, 179, 8, 0.3) !important;
+}
+
+/* --- Keep text white inside yellow buttons --- */
+html.light .bg-yellow-500.text-white,
+html.light .bg-yellow-500 > .text-white,
+html.light button.bg-yellow-500 .fas,
+html.light button.bg-yellow-500 .far,
+html.light a.bg-yellow-500,
+html.light .bg-yellow-600.text-white,
+html.light .bg-blue-600.text-white,
+html.light a.bg-blue-600 {
+  color: #ffffff !important;
+}
+
+/* Song carousel dots - visible in light mode */
+html.light .bg-black.rounded-full {
+  background-color: #ccc !important;
+}
+
+/* --- Social media icon buttons (CEO section & Footer) --- */
+html.light #ceo .bg-black.rounded-full,
+html.light footer .bg-black.rounded-full {
+  background-color: #e5e5e5 !important;
+}
+html.light #ceo .bg-black.rounded-full .text-white,
+html.light footer .bg-black.rounded-full .text-yellow-500 {
+  color: #555 !important;
+}
+html.light #ceo .bg-black.rounded-full:hover .text-white,
+html.light footer .bg-black.rounded-full:hover .text-yellow-500 {
+  color: #ffffff !important;
+}
+
+/* --- Service card icon background --- */
+html.light .bg-black.shadow-sm.rounded-xl {
+  background-color: #f0f0f0 !important;
+}
+
+/* --- Service card border adjustments --- */
+html.light .border.border-yellow-500\/20 {
+  border-color: rgba(234, 179, 8, 0.25) !important;
+}
+
+/* --- Admin dashboard table readable rows --- */
+html.light .hover\:bg-black:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* --- Beat/song card backgrounds in light mode --- */
+html.light .bg-yellow-500\/10 {
+  background-color: rgba(234, 179, 8, 0.08) !important;
+}
+html.light .bg-yellow-500\/20 {
+  background-color: rgba(234, 179, 8, 0.1) !important;
+}
+
+/* --- Status badges readability --- */
+html.light .bg-green-100 {
+  background-color: #dcfce7 !important;
+}
+html.light .text-green-800 {
+  color: #166534 !important;
+}
+
+/* --- Navbar mobile drawer --- */
+html.light .bg-black\/95.backdrop-blur {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* --- Release page search input --- */
+html.light input.bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* --- Keep admin modal body visible but light --- */
+html.light .fixed.inset-0 .bg-black.rounded-xl,
+html.light .fixed.inset-0 .bg-black.rounded-2xl {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(234, 179, 8, 0.3) !important;
+}
