@@ -60,6 +60,7 @@ export const deleteRelease = (id) => api.delete(`/releases/${id}`);
 // Contact
 export const createContact = (contactData) => api.post('/contact', contactData);
 export const fetchContacts = () => api.get('/contact');
+export const deleteContact = (id) => api.delete(`/contact/${id}`);
 
 // Auth
 export const loginUser = (credentials) => api.post('/auth/login', credentials);

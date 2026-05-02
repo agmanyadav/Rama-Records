@@ -4,7 +4,7 @@ import {
     fetchBookings, fetchContacts, fetchSongs, fetchGallery, fetchReleases,
     updateBookingStatus, deleteBooking, deleteSong, deleteGallery, deleteRelease,
     createSong, createGallery, createRelease, uploadFiles, getStaticUrl,
-    updateSong, updateGallery, updateRelease
+    updateSong, updateGallery, updateRelease, deleteContact
 } from '../api/api';
 
 const AdminDashboard = () => {
@@ -79,6 +79,7 @@ const AdminDashboard = () => {
         if (type === 'song') await deleteSong(id);
         if (type === 'gallery') await deleteGallery(id);
         if (type === 'release') await deleteRelease(id);
+        if (type === 'contact') await deleteContact(id);
         loadData();
       } catch (err) {
         alert(`Failed to delete ${type}`);
@@ -226,9 +227,10 @@ const AdminDashboard = () => {
             {tab === 'contacts' && (
               <div className="space-y-4">
                 {contacts.map((c) => (
-                  <div key={c._id} className="bg-black rounded-xl p-6 shadow-sm">
+                  <div key={c._id} className="bg-black rounded-xl p-6 shadow-sm relative group">
                     <div className="flex justify-between"><h4 className="font-semibold text-white">{c.name}</h4><span className="text-xs text-white font-medium">{new Date(c.createdAt).toLocaleDateString()}</span></div>
                     <p className="text-sm text-blue-600 mb-2 font-medium">{c.email}</p><p className="text-white">{c.message}</p>
+                    <button onClick={() => handleDeleteItem(c._id, 'contact')} className="absolute top-4 right-4 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity" title="Delete Contact"><i className="fas fa-trash"></i></button>
                   </div>
                 ))}
               </div>
