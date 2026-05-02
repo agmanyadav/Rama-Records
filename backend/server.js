@@ -22,6 +22,9 @@ connectDB();
 
 const app = express();
 
+// Trust the reverse proxy (Render load balancers) so rate limiting works correctly per-IP
+app.set('trust proxy', 1);
+
 // Security headers
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 

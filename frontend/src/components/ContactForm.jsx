@@ -23,7 +23,8 @@ const ContactForm = () => {
       setForm({ name: '', email: '', message: '' });
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      setError('Failed to send message. Please try again.');
+      console.error('Contact form error:', err);
+      setError(err.response?.data?.message || 'Failed to send message. Please try again.');
     } finally {
       setLoading(false);
     }
