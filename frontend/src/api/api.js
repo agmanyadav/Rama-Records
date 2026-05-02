@@ -24,9 +24,7 @@ export const fetchSongById = (id) => api.get(`/songs/${id}`);
 export const createSong = (songData) => api.post('/songs', songData);
 export const updateSong = (id, songData) => api.put(`/songs/${id}`, songData);
 export const deleteSong = (id) => api.delete(`/songs/${id}`);
-export const uploadFiles = (formData) => api.post('/upload', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-});
+export const uploadFiles = (formData) => api.post('/upload', formData);
 
 // Bookings
 export const createBooking = (bookingData) => api.post('/bookings', bookingData);

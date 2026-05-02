@@ -123,7 +123,10 @@ const AdminDashboard = () => {
             await updateSong(editingId, payload);
         }
         setShowSongModal(false); setEditingId(null); setNewSong({ title: '', artists: '', album: 'Rama Records', duration: '', featured: false, dsps: { spotify: '', apple: '', youtube: '' } }); loadData();
-    } catch (err) { alert('Failed to save song.'); } finally { setUploading(false); }
+    } catch (err) { 
+        console.error('Song save error:', err);
+        alert(`Failed to save song: ${err.response?.data?.message || err.message}`); 
+    } finally { setUploading(false); }
   };
 
   const handleAddGallerySubmit = async (e) => {
@@ -142,7 +145,10 @@ const AdminDashboard = () => {
             await updateGallery(editingId, payload);
         }
         setShowGalleryModal(false); setEditingId(null); setNewGallery({ title: '', featured: false }); loadData();
-    } catch (err) { alert('Failed to save gallery item.'); } finally { setUploading(false); }
+    } catch (err) { 
+        console.error('Gallery save error:', err);
+        alert(`Failed to save gallery item: ${err.response?.data?.message || err.message}`); 
+    } finally { setUploading(false); }
   };
 
   const handleAddReleaseSubmit = async (e) => {
