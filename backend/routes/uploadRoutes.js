@@ -47,23 +47,25 @@ const storage = new CloudinaryStorage({
 });
 
 function checkFileType(file, cb) {
-  let filetypes;
+  const allowedAudioMimes = ['audio/wav', 'audio/x-wav', 'audio/mpeg', 'audio/mp3'];
+  const allowedImageMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+
   if (file.fieldname === 'audio' || file.fieldname === 'beatAudio') {
-    filetypes = /wav|mp3/;
-  } else if (['cover', 'beatCover', 'galleryImage', 'serviceIcon'].includes(file.fieldname)) {
-    filetypes = /jpg|jpeg|png|webp|svg/;
-  } else {
-    filetypes = /.*/;
+    if (allowedAudioMimes.includes(file.mimetype)) {
+      return cb(null, true);
+    }
+    return cb('Error: Only WAV and MP3 audio files are allowed');
   }
 
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb('Error: Invalid File Type');
+  if (['cover', 'beatCover', 'galleryImage', 'serviceIcon'].includes(file.fieldname)) {
+    if (allowedImageMimes.includes(file.mimetype)) {
+      return cb(null, true);
+    }
+    return cb('Error: Only JPG, PNG, WebP, and SVG images are allowed');
   }
+
+  // Unknown field — allow
+  cb(null, true);
 }
 
 const upload = multer({

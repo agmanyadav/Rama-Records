@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 const gallerySchema = mongoose.Schema(
     {
-        title: {
-            type: String,
-            required: true,
-        },
         imagePath: {
             type: String,
             required: true,
@@ -13,7 +9,7 @@ const gallerySchema = mongoose.Schema(
         featured: {
             type: Boolean,
             default: false,
-        },
+        }
     },
     {
         timestamps: true,

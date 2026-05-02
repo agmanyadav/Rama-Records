@@ -29,7 +29,7 @@ const AdminDashboard = () => {
   const [newSong, setNewSong] = useState({ title: '', artists: '', album: 'Rama Records', duration: '', featured: false, dsps: { spotify: '', apple: '', youtube: '' } });
   const [songFiles, setSongFiles] = useState({ audio: null, cover: null });
 
-  const [newGallery, setNewGallery] = useState({ title: '', featured: false });
+  const [newGallery, setNewGallery] = useState({ featured: false });
   const [galleryFile, setGalleryFile] = useState(null);
 
   const [newRelease, setNewRelease] = useState({ youtubeUrl: '', title: '' });
@@ -98,7 +98,7 @@ const AdminDashboard = () => {
       setNewSong({ title: item.title, artists: item.artists, album: item.album, duration: item.duration, featured: item.featured, dsps: item.dsps || { spotify: '', apple: '', youtube: '' } });
       setShowSongModal(true);
     } else if (type === 'gallery') {
-      setNewGallery({ title: item.title, featured: item.featured });
+      setNewGallery({ featured: item.featured });
       setShowGalleryModal(true);
     } else if (type === 'release') {
       setNewRelease({ youtubeUrl: item.youtubeUrl, title: item.title });
@@ -145,7 +145,7 @@ const AdminDashboard = () => {
         } else {
             await updateGallery(editingId, payload);
         }
-        setShowGalleryModal(false); setEditingId(null); setNewGallery({ title: '', featured: false }); loadData();
+        setShowGalleryModal(false); setEditingId(null); setNewGallery({ featured: false }); loadData();
     } catch (err) { 
         console.error('Gallery save error:', err);
         alert(`Failed to save gallery item: ${err.response?.data?.message || err.message}`); 
@@ -254,12 +254,12 @@ const AdminDashboard = () => {
 
             {tab === 'gallery' && (
               <div>
-                <div className="mb-4 flex justify-end"><button onClick={() => { setEditingId(null); setNewGallery({ title: '', featured: false }); setShowGalleryModal(true); }} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Upload Image</button></div>
+                <div className="mb-4 flex justify-end"><button onClick={() => { setEditingId(null); setNewGallery({ featured: false }); setShowGalleryModal(true); }} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-4 py-2 rounded shadow-sm"><i className="fas fa-plus mr-2"></i> Upload Image</button></div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                    {gallery.map(g => (
                        <div key={g._id} className="bg-black p-2 rounded shadow-sm relative group">
-                           <img src={getStaticUrl(g.imagePath)} className="w-full h-32 object-cover rounded" />
-                           <div className="mt-2 text-sm text-white font-medium truncate">{g.title} {g.featured && <span className="text-yellow-600">(Featured)</span>}</div>
+                           <img src={getStaticUrl(g.imagePath)} alt="Gallery image" className="w-full h-32 object-cover rounded" />
+                           <div className="mt-2 text-sm text-white font-medium truncate">{g.featured && <span className="text-yellow-600">(Featured)</span>}</div>
                            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                <button onClick={() => handleEditClick(g, 'gallery')} className="bg-blue-500 text-white w-8 h-8 rounded-full shadow-md hover:bg-blue-600"><i className="fas fa-edit"></i></button>
                                <button onClick={() => handleDeleteItem(g._id, 'gallery')} className="bg-red-500 text-white w-8 h-8 rounded-full shadow-md hover:bg-red-600"><i className="fas fa-trash"></i></button>
@@ -325,7 +325,6 @@ const AdminDashboard = () => {
                  <button onClick={() => setShowGalleryModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
                  <h2 className="text-2xl font-bold mb-4 text-white">{editingId ? 'Edit Gallery Image' : 'Add Gallery Image'}</h2>
                  <form onSubmit={handleAddGallerySubmit} className="space-y-3 pb-8 max-h-[70vh] overflow-y-auto px-1">
-                     <input type="text" placeholder="Image Title/Caption" required value={newGallery.title} onChange={e => setNewGallery({...newGallery, title: e.target.value})} className="w-full border rounded p-2 text-black bg-white placeholder-gray-500" />
                      {!editingId && <div className="bg-black p-3 rounded text-sm text-white font-medium">Upload Image <input type="file" required onChange={e => setGalleryFile(e.target.files[0])} className="text-white" /></div>}
                      <div><label className="text-sm text-white font-medium"><input type="checkbox" checked={newGallery.featured} onChange={e => setNewGallery({...newGallery, featured: e.target.checked})} className="mr-1" /> Featured on Homepage?</label></div>
                      <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 rounded hover:bg-yellow-600 transition-colors">{uploading ? 'Wait...' : (editingId ? 'Update' : 'Upload Image')}</button>

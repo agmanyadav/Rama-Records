@@ -32,11 +32,8 @@ export const fetchBookings = () => api.get('/bookings');
 export const updateBookingStatus = (id, status) => api.put(`/bookings/${id}/status`, { status });
 export const deleteBooking = (id) => api.delete(`/bookings/${id}`);
 
-// Beats
-export const fetchBeats = () => api.get('/beats');
-export const fetchFeaturedBeats = () => api.get('/beats/featured');
-export const createBeat = (beatData) => api.post('/beats', beatData);
-export const deleteBeat = (id) => api.delete(`/beats/${id}`);
+
+
 
 // Gallery
 export const fetchGallery = () => api.get('/gallery');

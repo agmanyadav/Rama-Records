@@ -119,9 +119,21 @@ const SongCarousel = () => {
           <p className="text-white text-sm mb-4">{song.artists}</p>
 
           <div className="flex space-x-4 mb-6">
-            <i className="fab fa-spotify text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
-            <i className="fab fa-apple text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
-            <i className="fab fa-youtube text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
+            {song.dsps?.spotify && (
+              <a href={song.dsps.spotify} target="_blank" rel="noopener noreferrer" title="Listen on Spotify">
+                <i className="fab fa-spotify text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
+              </a>
+            )}
+            {song.dsps?.apple && (
+              <a href={song.dsps.apple} target="_blank" rel="noopener noreferrer" title="Listen on Apple Music">
+                <i className="fab fa-apple text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
+              </a>
+            )}
+            {song.dsps?.youtube && (
+              <a href={song.dsps.youtube} target="_blank" rel="noopener noreferrer" title="Listen on YouTube">
+                <i className="fab fa-youtube text-2xl text-yellow-500 hover:text-white cursor-pointer transition-colors"></i>
+              </a>
+            )}
           </div>
 
           <div className="flex space-x-4">

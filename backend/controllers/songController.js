@@ -7,7 +7,7 @@ const MAX_FEATURED = 4;
 // @access  Public
 const getSongs = async (req, res) => {
     try {
-        const songs = await Song.find({}).sort({ order: 1 });
+        const songs = await Song.find({}).sort({ createdAt: -1 });
         res.json(songs);
     } catch (error) {
         res.status(500).json({ message: 'Server Error' });

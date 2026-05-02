@@ -22,7 +22,7 @@ const getFeaturedGallery = async (req, res) => {
 
 const createGallery = async (req, res) => {
     try {
-        const { title, imagePath, featured } = req.body;
+        const { imagePath, featured } = req.body;
 
         // If marking as featured, enforce the cap
         if (featured) {
@@ -36,7 +36,7 @@ const createGallery = async (req, res) => {
             }
         }
 
-        const image = new Gallery({ title, imagePath, featured });
+        const image = new Gallery({ imagePath, featured });
         const createdImage = await image.save();
         res.status(201).json(createdImage);
     } catch (error) {
@@ -60,13 +60,11 @@ const deleteGallery = async (req, res) => {
 
 const updateGallery = async (req, res) => {
     try {
-        const { title, featured } = req.body;
+        const { featured } = req.body;
 
         const image = await Gallery.findById(req.params.id);
 
         if (image) {
-            image.title = title || image.title;
-            
             if (featured !== undefined && featured !== image.featured) {
                 if (featured) {
                     const currentFeatured = await Gallery.find({ featured: true }).sort({ createdAt: -1 });
