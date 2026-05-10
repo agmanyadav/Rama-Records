@@ -44,7 +44,7 @@ const SongsPage = () => {
     <div className="min-h-screen bg-black pt-20">
       {/* Header */}
       <div className="max-w-6xl mx-auto px-6 pt-12">
-        <h1 className="text-3xl font-bold text-white tracking-tight">ALL SONGS</h1>
+        <h1 className="text-3xl font-bold text-white tracking-tight">SONGS</h1>
       </div>
 
       {/* Search */}
