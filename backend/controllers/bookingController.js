@@ -44,6 +44,9 @@ const updateBookingStatus = async (req, res) => {
 
         if (booking) {
             booking.status = req.body.status || booking.status;
+            if (req.body.adminReply !== undefined) {
+                booking.adminReply = req.body.adminReply;
+            }
             const updatedBooking = await booking.save();
             res.json(updatedBooking);
         } else {

@@ -29,7 +29,7 @@ export const uploadFiles = (formData) => api.post('/upload', formData);
 // Bookings
 export const createBooking = (bookingData) => api.post('/bookings', bookingData);
 export const fetchBookings = () => api.get('/bookings');
-export const updateBookingStatus = (id, status) => api.put(`/bookings/${id}/status`, { status });
+export const updateBookingStatus = (id, status, adminReply) => api.put(`/bookings/${id}/status`, { status, adminReply });
 export const deleteBooking = (id) => api.delete(`/bookings/${id}`);
 
 
@@ -63,6 +63,10 @@ export const deleteContact = (id) => api.delete(`/contact/${id}`);
 export const loginUser = (credentials) => api.post('/auth/login', credentials);
 export const googleLogin = (credential) => api.post('/auth/google', { credential });
 export const getUserProfile = () => api.get('/auth/profile');
+export const updateUserProfile = (profileData) => api.put('/auth/profile', profileData);
+
+// User Bookings
+export const fetchUserBookings = () => api.get('/user/bookings');
 
 // Helper to get full static URL — handles both Cloudinary URLs and legacy relative paths
 export const getStaticUrl = (path) => {

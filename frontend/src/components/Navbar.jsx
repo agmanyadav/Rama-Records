@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { getStaticUrl } from '../api/api';
 
 const Navbar = () => {
@@ -7,8 +8,11 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const userInfoStr = localStorage.getItem('userInfo');
-  const isAdmin = userInfoStr && userInfoStr !== 'undefined' && userInfoStr !== 'null';
+
+  // Read auth state from Redux
+  const { user, role, isAuthenticated } = useSelector((state) => state.auth);
+  const isAdmin = isAuthenticated && role === 'admin';
+  const isUser = isAuthenticated && role === 'user';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -86,12 +90,44 @@ const Navbar = () => {
             Contacts
             {underlineSpan}
           </a>
+
+          {/* Admin button — visible only for admin users */}
           {isAdmin && (
             <Link
               to="/admin/dashboard"
               className="ml-2 px-4 py-2 text-sm font-bold text-yellow-500 hover:text-yellow-400 transition-colors duration-300 bg-yellow-500/10 rounded-full flex items-center"
             >
               <i className="fas fa-cog mr-1"></i> Admin
+            </Link>
+          )}
+
+          {/* User Profile button — visible only for logged-in non-admin users */}
+          {isUser && (
+            <Link
+              to="/user/dashboard"
+              className="ml-2 px-4 py-2 text-sm font-bold text-yellow-500 hover:text-yellow-400 transition-colors duration-300 bg-yellow-500/10 rounded-full flex items-center gap-2"
+            >
+              {user?.profilePicture || user?.picture ? (
+                <img
+                  src={user.profilePicture || user.picture}
+                  alt=""
+                  className="w-5 h-5 rounded-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <i className="fas fa-user-circle"></i>
+              )}
+              Profile
+            </Link>
+          )}
+
+          {/* Login button — visible only when NOT authenticated */}
+          {!isAuthenticated && (
+            <Link
+              to="/login"
+              className="ml-2 px-4 py-2 text-sm font-bold text-yellow-500 hover:text-yellow-400 transition-colors duration-300 bg-yellow-500/10 rounded-full flex items-center"
+            >
+              <i className="fas fa-sign-in-alt mr-1"></i> Login
             </Link>
           )}
         </div>
@@ -109,7 +145,7 @@ const Navbar = () => {
       {/* Mobile Drawer */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ${
-          mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          mobileOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         } bg-black/95 backdrop-blur`}
       >
         <div className="px-6 py-4 space-y-2">
@@ -152,6 +188,8 @@ const Navbar = () => {
           >
             Contacts
           </button>
+
+          {/* Admin link (mobile) */}
           {isAdmin && (
             <Link
               to="/admin/dashboard"
@@ -159,6 +197,28 @@ const Navbar = () => {
               className="block py-2 text-yellow-500 font-bold hover:text-yellow-400 transition-colors"
             >
               <i className="fas fa-cog mr-2"></i> Admin Dashboard
+            </Link>
+          )}
+
+          {/* User Profile link (mobile) */}
+          {isUser && (
+            <Link
+              to="/user/dashboard"
+              onClick={() => setMobileOpen(false)}
+              className="block py-2 text-yellow-500 font-bold hover:text-yellow-400 transition-colors"
+            >
+              <i className="fas fa-user-circle mr-2"></i> My Profile
+            </Link>
+          )}
+
+          {/* Login link (mobile) */}
+          {!isAuthenticated && (
+            <Link
+              to="/login"
+              onClick={() => setMobileOpen(false)}
+              className="block py-2 text-yellow-500 font-bold hover:text-yellow-400 transition-colors"
+            >
+              <i className="fas fa-sign-in-alt mr-2"></i> Login
             </Link>
           )}
         </div>

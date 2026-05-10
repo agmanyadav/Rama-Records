@@ -23,6 +23,9 @@ const bookingSchema = mongoose.Schema(
         message: {
             type: String,
         },
+        adminReply: {
+            type: String,
+        },
         status: {
             type: String,
             enum: ['pending', 'confirmed', 'completed', 'cancelled'],

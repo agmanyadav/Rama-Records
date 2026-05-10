@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { invalidateSongs } from '../../store/songsSlice';
+import { invalidateGallery } from '../../store/gallerySlice';
+import { logout as logoutAction } from '../../store/authSlice';
 import { 
     fetchBookings, fetchContacts, fetchSongs, fetchGallery, fetchReleases,
     updateBookingStatus, deleteBooking, deleteSong, deleteGallery, deleteRelease,
     createSong, createGallery, createRelease, uploadFiles, getStaticUrl,
     updateSong, updateGallery, updateRelease, deleteContact
-} from '../api/api';
+} from '../../api/api';
 
 const AdminDashboard = () => {
   const [tab, setTab] = useState('bookings');
@@ -23,6 +27,8 @@ const AdminDashboard = () => {
   const [showSongModal, setShowSongModal] = useState(false);
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [showReleaseModal, setShowReleaseModal] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
   // Form States
@@ -35,6 +41,7 @@ const AdminDashboard = () => {
   const [newRelease, setNewRelease] = useState({ youtubeUrl: '', title: '' });
   
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
@@ -67,6 +74,25 @@ const AdminDashboard = () => {
     try { await updateBookingStatus(id, status); loadData(); } catch (err) { alert('Failed to update status'); }
   };
 
+  const handleReviewBooking = (booking) => {
+    setSelectedBooking({ ...booking, newReply: booking.adminReply || '' });
+    setShowBookingModal(true);
+  };
+
+  const handleBookingUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      setUploading(true);
+      await updateBookingStatus(selectedBooking._id, selectedBooking.status, selectedBooking.newReply);
+      setShowBookingModal(false);
+      loadData();
+    } catch (err) {
+      alert('Failed to update booking');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleDeleteBooking = async (id) => {
     if (window.confirm('Delete this booking?')) {
       try { await deleteBooking(id); loadData(); } catch (err) { alert('Failed to delete booking'); }
@@ -80,6 +106,8 @@ const AdminDashboard = () => {
         if (type === 'gallery') await deleteGallery(id);
         if (type === 'release') await deleteRelease(id);
         if (type === 'contact') await deleteContact(id);
+        if (type === 'song') dispatch(invalidateSongs());
+        if (type === 'gallery') dispatch(invalidateGallery());
         loadData();
       } catch (err) {
         alert(`Failed to delete ${type}`);
@@ -88,7 +116,7 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userInfo');
+    dispatch(logoutAction());
     navigate('/admin');
   };
 
@@ -123,7 +151,7 @@ const AdminDashboard = () => {
         } else {
             await updateSong(editingId, payload);
         }
-        setShowSongModal(false); setEditingId(null); setNewSong({ title: '', artists: '', album: 'Rama Records', duration: '', featured: false, dsps: { spotify: '', apple: '', youtube: '' } }); loadData();
+        setShowSongModal(false); setEditingId(null); setNewSong({ title: '', artists: '', album: 'Rama Records', duration: '', featured: false, dsps: { spotify: '', apple: '', youtube: '' } }); dispatch(invalidateSongs()); loadData();
     } catch (err) { 
         console.error('Song save error:', err);
         alert(`Failed to save song: ${err.response?.data?.message || err.message}`); 
@@ -145,7 +173,7 @@ const AdminDashboard = () => {
         } else {
             await updateGallery(editingId, payload);
         }
-        setShowGalleryModal(false); setEditingId(null); setNewGallery({ featured: false }); loadData();
+        setShowGalleryModal(false); setEditingId(null); setNewGallery({ featured: false }); dispatch(invalidateGallery()); loadData();
     } catch (err) { 
         console.error('Gallery save error:', err);
         alert(`Failed to save gallery item: ${err.response?.data?.message || err.message}`); 
@@ -214,6 +242,7 @@ const AdminDashboard = () => {
                         <td className="p-4">{b.name}</td><td className="p-4">{b.email}</td><td className="p-4">{b.phone || 'N/A'}</td><td className="p-4">{b.serviceType}</td>
                         <td className="p-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[b.status]}`}>{b.status}</span></td>
                         <td className="p-4 flex items-center gap-3">
+                          <button onClick={() => handleReviewBooking(b)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs font-bold transition-colors">Review</button>
                           <select value={b.status} onChange={(e) => handleStatusChange(b._id, e.target.value)} className="border rounded px-2 py-1 outline-none text-white bg-black"><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
                           <button onClick={() => handleDeleteBooking(b._id)} className="text-red-500 hover:text-red-700" title="Delete Booking"><i className="fas fa-trash"></i></button>
                         </td>
@@ -289,6 +318,63 @@ const AdminDashboard = () => {
       </div>
 
       {/* MODALS */}
+      {showBookingModal && selectedBooking && (
+          <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center z-[60] p-4 text-white">
+              <div className="bg-black rounded-xl w-full max-w-2xl p-6 relative shadow-lg border border-yellow-500/20">
+                 <button onClick={() => setShowBookingModal(false)} className="absolute top-4 right-4 text-white hover:text-white"><i className="fas fa-times"></i></button>
+                 <h2 className="text-2xl font-bold mb-4 text-white">Review Booking Request</h2>
+                 
+                 <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-white/5 p-3 rounded">
+                        <p className="text-xs text-yellow-500 uppercase tracking-wider mb-1">Client</p>
+                        <p className="font-semibold">{selectedBooking.name}</p>
+                        <p className="text-sm text-gray-300">{selectedBooking.email}</p>
+                        <p className="text-sm text-gray-300">{selectedBooking.phone || 'No phone provided'}</p>
+                    </div>
+                    <div className="bg-white/5 p-3 rounded">
+                        <p className="text-xs text-yellow-500 uppercase tracking-wider mb-1">Service & Date</p>
+                        <p className="font-semibold">{selectedBooking.serviceType}</p>
+                        <p className="text-sm text-gray-300">{selectedBooking.preferredDate ? new Date(selectedBooking.preferredDate).toLocaleDateString() : 'No date specified'}</p>
+                    </div>
+                 </div>
+
+                 <div className="bg-white/5 p-3 rounded mb-6">
+                     <p className="text-xs text-yellow-500 uppercase tracking-wider mb-1">Client Message</p>
+                     <p className="text-gray-300 whitespace-pre-wrap">{selectedBooking.message || <span className="italic text-gray-500">No message provided</span>}</p>
+                 </div>
+
+                 <form onSubmit={handleBookingUpdate} className="space-y-4">
+                     <div>
+                         <label className="text-xs text-yellow-500 uppercase tracking-wider mb-2 block">Admin Reply (Sent to client dashboard)</label>
+                         <textarea 
+                             rows="4" 
+                             placeholder="Write a message back to the client..."
+                             value={selectedBooking.newReply} 
+                             onChange={e => setSelectedBooking({...selectedBooking, newReply: e.target.value})} 
+                             className="w-full border rounded p-3 text-black bg-white placeholder-gray-500" 
+                         />
+                     </div>
+                     <div className="flex gap-4 items-center">
+                         <div className="w-1/2">
+                             <label className="text-xs text-yellow-500 uppercase tracking-wider mb-2 block">Status</label>
+                             <select value={selectedBooking.status} onChange={e => setSelectedBooking({...selectedBooking, status: e.target.value})} className="w-full border rounded p-2 text-black bg-white">
+                                 <option value="pending">Pending</option>
+                                 <option value="confirmed">Confirmed</option>
+                                 <option value="completed">Completed</option>
+                                 <option value="cancelled">Cancelled</option>
+                             </select>
+                         </div>
+                         <div className="w-1/2 flex items-end pt-6">
+                             <button type="submit" disabled={uploading} className="w-full bg-yellow-500 text-white font-bold py-2 px-4 rounded hover:bg-yellow-600 transition-colors">
+                                 {uploading ? 'Updating...' : 'Save Updates'}
+                             </button>
+                         </div>
+                     </div>
+                 </form>
+              </div>
+          </div>
+      )}
+
       {showSongModal && (
           <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center z-[60] p-4 text-white">
               <div className="bg-black rounded-xl w-full max-w-lg p-6 relative">

@@ -14,12 +14,27 @@ const userSchema = mongoose.Schema(
         },
         password: {
             type: String,
-            required: true,
+            required: false, // Not required for Google OAuth users
         },
         isAdmin: {
             type: Boolean,
             required: true,
             default: false,
+        },
+        googleId: {
+            type: String,
+        },
+        phone: {
+            type: String,
+            default: '',
+        },
+        profilePicture: {
+            type: String,
+            default: '',
+        },
+        bio: {
+            type: String,
+            default: '',
         },
     },
     {
@@ -28,12 +43,13 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
+    if (!this.password) return false;
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
-        next();
+userSchema.pre('save', async function () {
+    if (!this.isModified('password') || !this.password) {
+        return;
     }
 
     const salt = await bcrypt.genSalt(10);

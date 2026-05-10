@@ -25,6 +25,7 @@ const authUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                role: user.isAdmin ? 'admin' : 'user',
                 token: generateToken(user._id),
             });
         } else {
@@ -35,7 +36,7 @@ const authUser = async (req, res) => {
     }
 };
 
-// @desc    Auth user with Google OAuth
+// @desc    Auth user with Google OAuth (admin + normal users)
 // @route   POST /api/auth/google
 // @access  Public
 const googleAuth = async (req, res) => {
@@ -61,31 +62,42 @@ const googleAuth = async (req, res) => {
         // Check if this email is an authorized admin
         const envAdminEmails = process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || '';
         const adminEmails = envAdminEmails.split(',').map(e => e.trim());
-        if (!adminEmails.includes(email)) {
-            console.warn('Admin email mismatch. Got:', email, 'Expected one of:', adminEmails);
-            return res.status(403).json({ message: 'This Google account is not authorized as admin.' });
-        }
+        const isAdmin = adminEmails.includes(email);
 
         // Find or create the user
         let user = await User.findOne({ email });
 
         if (!user) {
-            // Create a new admin user from Google
+            // Create a new user from Google
             user = await User.create({
                 name: name,
                 email: email,
-                password: `google_${googleId}_${Date.now()}`, // Random password since they use Google
-                isAdmin: true,
+                isAdmin: isAdmin,
                 googleId: googleId,
+                profilePicture: picture || '',
             });
+        } else {
+            // Update googleId and profilePicture if not already set
+            if (!user.googleId) user.googleId = googleId;
+            if (!user.profilePicture && picture) user.profilePicture = picture;
+            // Sync admin status
+            user.isAdmin = isAdmin;
+            await user.save();
         }
+
+        const role = isAdmin ? 'admin' : 'user';
+        console.log(`Google Auth success: ${email}, role: ${role}`);
 
         res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
             picture: picture,
-            isAdmin: true,
+            profilePicture: user.profilePicture || picture,
+            phone: user.phone || '',
+            bio: user.bio || '',
+            isAdmin: isAdmin,
+            role: role,
             token: generateToken(user._id),
         });
     } catch (error) {
@@ -108,6 +120,42 @@ const getUserProfile = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                role: user.isAdmin ? 'admin' : 'user',
+                phone: user.phone || '',
+                profilePicture: user.profilePicture || '',
+                bio: user.bio || '',
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateUserProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+
+        if (user) {
+            user.name = req.body.name || user.name;
+            user.phone = req.body.phone !== undefined ? req.body.phone : user.phone;
+            user.bio = req.body.bio !== undefined ? req.body.bio : user.bio;
+
+            const updatedUser = await user.save();
+
+            res.json({
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                isAdmin: updatedUser.isAdmin,
+                role: updatedUser.isAdmin ? 'admin' : 'user',
+                phone: updatedUser.phone || '',
+                profilePicture: updatedUser.profilePicture || '',
+                bio: updatedUser.bio || '',
             });
         } else {
             res.status(404).json({ message: 'User not found' });
@@ -121,4 +169,5 @@ module.exports = {
     authUser,
     googleAuth,
     getUserProfile,
+    updateUserProfile,
 };

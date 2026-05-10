@@ -1,26 +1,23 @@
 import { useState, useEffect } from 'react';
-import { fetchGallery, getStaticUrl } from '../api/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { getStaticUrl } from '../api/api';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fetchAllGallery } from '../store/gallerySlice';
 
 const GalleryPage = () => {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const images = useSelector((state) => state.gallery.all);
+  const allStatus = useSelector((state) => state.gallery.allStatus);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const loading = allStatus === 'loading' || allStatus === 'idle';
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const loadGallery = async () => {
-      try {
-        const { data } = await fetchGallery();
-        setImages(data);
-      } catch (err) {
-        console.error('Failed to load gallery', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadGallery();
-  }, []);
+    if (allStatus === 'idle') {
+      dispatch(fetchAllGallery());
+    }
+  }, [allStatus, dispatch]);
 
   return (
     <div className="min-h-screen bg-black pt-24 pb-12 px-4 transition-all duration-300">

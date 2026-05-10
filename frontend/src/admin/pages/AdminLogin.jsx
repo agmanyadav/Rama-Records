@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
-import { googleLogin } from '../api/api';
+import { googleLogin } from '../../api/api';
+import { loginSuccess } from '../../store/authSlice';
 
 const AdminLogin = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
@@ -14,7 +17,14 @@ const AdminLogin = () => {
 
     try {
       const { data } = await googleLogin(credentialResponse.credential);
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      
+      // Only allow admin users through this login page
+      if (data.role !== 'admin' && !data.isAdmin) {
+        setError('This Google account is not authorized as admin. Use the Login button for user access.');
+        return;
+      }
+      
+      dispatch(loginSuccess(data));
       navigate('/admin/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Google authentication failed. Make sure you are using the authorized admin account.');

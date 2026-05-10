@@ -1,37 +1,25 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
-import { fetchFeaturedSongs, getStaticUrl } from '../api/api';
+import { getStaticUrl } from '../api/api';
 import { usePlayer } from '../context/PlayerContext';
 import { useNavigate } from 'react-router-dom';
-
-const fallbackSongs = [
-  { _id: '1', title: 'Shaamein', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Shaamein.png', audioFile: '/songs/Shaamein.wav', duration: '2:47' },
-  { _id: '2', title: 'Aa Bhi Jaa', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Aa Bhi Jaa.png', audioFile: '/songs/Aa Bhi Jaa.wav', duration: '4:15' },
-  { _id: '3', title: 'Kahani', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Kahani.png', audioFile: '/songs/Kahani.wav', duration: '2:56' },
-  { _id: '4', title: 'Khwab', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Khwab.png', audioFile: '/songs/Khwab.wav', duration: '3:30' },
-  { _id: '5', title: 'Paatal Lok', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Paatal Lok.png', audioFile: '/songs/Paatal Lok.wav', duration: '3:30' },
-];
+import { fetchFeatured } from '../store/songsSlice';
 
 const SongCarousel = () => {
-  const [songs, setSongs] = useState(fallbackSongs);
+  const dispatch = useDispatch();
+  const songs = useSelector((state) => state.songs.featured);
+  const featuredStatus = useSelector((state) => state.songs.featuredStatus);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
   const { playSong, setPlaylist } = usePlayer();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadSongs = async () => {
-      try {
-        const { data } = await fetchFeaturedSongs();
-        if (data && data.length > 0) {
-          setSongs(data);
-        }
-      } catch (err) {
-        // Keep fallback data
-      }
-    };
-    loadSongs();
-  }, []);
+    if (featuredStatus === 'idle') {
+      dispatch(fetchFeatured());
+    }
+  }, [featuredStatus, dispatch]);
 
   useEffect(() => {
     if (songs.length === 0) return;

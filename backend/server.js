@@ -15,6 +15,7 @@ const uploadRoutes = require('./routes/uploadRoutes.js');
 const galleryRoutes = require('./routes/galleryRoutes.js');
 const serviceRoutes = require('./routes/serviceRoutes.js');
 const releaseRoutes = require('./routes/releaseRoutes.js');
+const userBookingRoutes = require('./routes/userBookingRoutes.js');
 
 connectDB();
 
@@ -59,6 +60,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/releases', releaseRoutes);
+app.use('/api/user', userBookingRoutes);
 
 // Protect audio files from direct download
 app.use('/songs', (req, res, next) => {

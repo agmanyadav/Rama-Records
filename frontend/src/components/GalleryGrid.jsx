@@ -1,26 +1,24 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { fetchFeaturedGallery, getStaticUrl } from '../api/api';
+import { getStaticUrl } from '../api/api';
+import { fetchFeaturedGalleryThunk } from '../store/gallerySlice';
 
 const GalleryGrid = () => {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const allFeatured = useSelector((state) => state.gallery.featured);
+  const featuredStatus = useSelector((state) => state.gallery.featuredStatus);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const images = allFeatured.slice(0, 8); // Display max 8 images on the homepage
+  const loading = featuredStatus === 'loading' || featuredStatus === 'idle';
+
   useEffect(() => {
-    const loadFeaturedGallery = async () => {
-      try {
-        const { data } = await fetchFeaturedGallery();
-        setImages(data.slice(0, 8)); // Display max 8 images on the homepage
-      } catch (err) {
-        console.error('Failed to load gallery', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadFeaturedGallery();
-  }, []);
+    if (featuredStatus === 'idle') {
+      dispatch(fetchFeaturedGalleryThunk());
+    }
+  }, [featuredStatus, dispatch]);
 
   if (!loading && images.length === 0) return null;
 

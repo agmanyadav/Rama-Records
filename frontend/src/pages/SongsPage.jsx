@@ -1,36 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
-import { fetchSongs, getStaticUrl } from '../api/api';
+import { getStaticUrl } from '../api/api';
 import { usePlayer } from '../context/PlayerContext';
+import { fetchAllSongs } from '../store/songsSlice';
 import Footer from '../components/Footer';
 
-const defaultDsps = { spotify: '#', apple: '#', youtube: '#' };
-const fallbackSongs = [
-  { _id: '1', title: 'Shaamein', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Shaamein.png', audioFile: '/songs/Shaamein.wav', duration: '2:47', album: 'Rama Records', dsps: defaultDsps },
-  { _id: '2', title: 'Aa Bhi Jaa', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Aa Bhi Jaa.png', audioFile: '/songs/Aa Bhi Jaa.wav', duration: '4:15', album: 'Rama Records', dsps: defaultDsps },
-  { _id: '3', title: 'Kahani', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Kahani.png', audioFile: '/songs/Kahani.wav', duration: '2:56', album: 'Rama Records', dsps: defaultDsps },
-  { _id: '4', title: 'Khwab', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Khwab.png', audioFile: '/songs/Khwab.wav', duration: '3:30', album: 'Rama Records', dsps: defaultDsps },
-  { _id: '5', title: 'Paatal Lok', artists: 'Anurag Dhimaan & Akshay Tyagi', coverImage: '/images/songs_thumbnails/Paatal Lok.png', audioFile: '/songs/Paatal Lok.wav', duration: '3:30', album: 'Rama Records', dsps: defaultDsps },
-];
-
 const SongsPage = () => {
-  const [songs, setSongs] = useState(fallbackSongs);
+  const dispatch = useDispatch();
+  const songs = useSelector((state) => state.songs.all);
+  const allStatus = useSelector((state) => state.songs.allStatus);
   const [search, setSearch] = useState('');
   const { playSong, currentSong, isPlaying } = usePlayer();
 
   useEffect(() => {
-    const loadSongs = async () => {
-      try {
-        const { data } = await fetchSongs();
-        if (data && data.length > 0) {
-          setSongs(data);
-        }
-      } catch (err) {
-        // Keep fallback data
-      }
-    };
-    loadSongs();
-  }, []);
+    if (allStatus === 'idle') {
+      dispatch(fetchAllSongs());
+    }
+  }, [allStatus, dispatch]);
 
   const filteredSongs = songs.filter(
     (s) =>
