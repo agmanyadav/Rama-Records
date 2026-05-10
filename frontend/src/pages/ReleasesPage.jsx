@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchReleases } from '../api/api';
 import { motion, AnimatePresence } from 'framer-motion';
-import Footer from '../components/Footer';
+import Footer from '../components/common/Footer';
 
 const ReleasesPage = () => {
     const [releases, setReleases] = useState([]);

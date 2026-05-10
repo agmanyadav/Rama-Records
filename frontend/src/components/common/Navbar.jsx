@@ -79,7 +79,7 @@ const Navbar = () => {
             {underlineSpan}
           </Link>
           <Link to="/songs" className={desktopLinkClass}>
-            All Songs
+            Songs
             {underlineSpan}
           </Link>
           <a
@@ -180,7 +180,7 @@ const Navbar = () => {
             onClick={() => setMobileOpen(false)}
             className="block py-2 text-white hover:text-yellow-400 transition-colors border-b border-yellow-500/20"
           >
-            All Songs
+            Songs
           </Link>
           <button
             onClick={(e) => handleNavClick(e, '#contact')}

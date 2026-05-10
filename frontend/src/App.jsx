@@ -3,14 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { PlayerProvider } from './context/PlayerContext';
 import { ThemeProvider } from './context/ThemeContext';
-import Navbar from './components/Navbar';
-import AudioPlayer from './components/AudioPlayer';
-import ThemeToggle from './components/ThemeToggle';
+import Navbar from './components/common/Navbar';
+import AudioPlayer from './components/common/AudioPlayer';
+import ThemeToggle from './components/common/ThemeToggle';
 import HomePage from './pages/HomePage';
 import SongsPage from './pages/SongsPage';
 import GalleryPage from './pages/GalleryPage';
 import ReleasesPage from './pages/ReleasesPage';
-import ScrollToHash from './components/ScrollToHash';
+import ScrollToHash from './components/common/ScrollToHash';
 
 // Admin pages (moved to admin directory)
 import AdminLogin from './admin/pages/AdminLogin';

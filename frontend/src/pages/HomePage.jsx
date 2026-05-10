@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import HeroSection from '../components/HeroSection';
-import CEOSection from '../components/CEOSection';
-import SongCarousel from '../components/SongCarousel';
-import ServicesSection from '../components/ServicesSection';
-import GalleryGrid from '../components/GalleryGrid';
-import ContactForm from '../components/ContactForm';
-import BookingModal from '../components/BookingModal';
-import Footer from '../components/Footer';
+import HeroSection from '../components/home/HeroSection';
+import CEOSection from '../components/home/CEOSection';
+import SongCarousel from '../components/home/SongCarousel';
+import ServicesSection from '../components/home/ServicesSection';
+import GalleryGrid from '../components/home/GalleryGrid';
+import ContactForm from '../components/home/ContactForm';
+import BookingModal from '../components/home/BookingModal';
+import Footer from '../components/common/Footer';
 
 const AboutSection = () => (
   <section id="about" className="py-20 px-6 bg-black">
