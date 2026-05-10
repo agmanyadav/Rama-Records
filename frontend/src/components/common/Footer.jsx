@@ -1,4 +1,4 @@
-import { usePlayer } from '../context/PlayerContext';
+import { usePlayer } from '../../context/PlayerContext';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {

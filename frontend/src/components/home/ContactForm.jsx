@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { createContact } from '../api/api';
+import { createContact } from '../../api/api';
 
 const ContactForm = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });

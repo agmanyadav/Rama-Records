@@ -1,5 +1,5 @@
-import { usePlayer } from '../context/PlayerContext';
-import { getStaticUrl } from '../api/api';
+import { usePlayer } from '../../context/PlayerContext';
+import { getStaticUrl } from '../../api/api';
 
 const AudioPlayer = () => {
   const {

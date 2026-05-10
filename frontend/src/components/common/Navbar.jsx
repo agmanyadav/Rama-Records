@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getStaticUrl } from '../api/api';
+import { getStaticUrl } from '../../api/api';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);

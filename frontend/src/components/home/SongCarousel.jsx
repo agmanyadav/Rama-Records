@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getStaticUrl } from '../api/api';
-import { usePlayer } from '../context/PlayerContext';
+import { getStaticUrl } from '../../api/api';
+import { usePlayer } from '../../context/PlayerContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchFeatured } from '../store/songsSlice';
+import { fetchFeatured } from '../../store/songsSlice';
 
 const SongCarousel = () => {
   const dispatch = useDispatch();

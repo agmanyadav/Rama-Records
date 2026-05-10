@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { getStaticUrl } from '../api/api';
-import { fetchFeaturedGalleryThunk } from '../store/gallerySlice';
+import { getStaticUrl } from '../../api/api';
+import { fetchFeaturedGalleryThunk } from '../../store/gallerySlice';
 
 const GalleryGrid = () => {
   const dispatch = useDispatch();

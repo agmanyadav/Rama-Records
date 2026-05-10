@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { createBooking } from '../api/api';
+import { createBooking } from '../../api/api';
 
 const BookingModal = ({ isOpen, onClose }) => {
   const [form, setForm] = useState({

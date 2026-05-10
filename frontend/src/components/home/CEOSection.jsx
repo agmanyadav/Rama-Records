@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { getStaticUrl } from '../api/api';
+import { getStaticUrl } from '../../api/api';
 
 const CEOSection = () => {
   return (
